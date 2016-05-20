@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html>  
+  <head>  
+        <meta charset="utf-8">  
+        <title>demo</title>  
+  <style>
+    #genogram text{cursor: pointer;}
+    #genogram polyline{fill:none;stroke:black;stroke-width:2;}
+  </style>
+  <script src="js/svg.min.js"></script>
+  <script src="js/genogram.js"></script>
+  </head> 
+<body>
+<div id="genogram"></div>
+<script type="text/javascript">
+var json = [
+  [
+    {
+      id:'01',
+      name:'尼牙孜·阿不都拉',
+      fid:'',
+      mid:'',
+      pid:'01p',
+      cid:["11","12","13"],
+      bid:["01"],
+      imgurl:"img/01.jpg",
+      relation:"户主",
+      record : "橙色_在逃人员，红色_特殊群体"
+    },{
+      id:'01p',
+      name:'热依汉·热西提',
+      fid:'',
+      mid:'',
+      pid:'01',
+      cid:["11","12","13"],
+      bid:["01p"],
+      imgurl:"img/15.jpg",
+      relation:"妻子",
+      record : ""
+    }],
+  [
+    {
+      id:'11',
+      name:'巴哈提古丽',
+      fid:'01',
+      mid:'01p',
+      pid:'11p',
+      cid:["24","25","26"],
+      bid:["11","12","13","14"],
+      imgurl:"img/11.jpg",
+      relation:"儿子",
+      record : ""
+    },{
+      id:'11p',
+      name:'巴哈提古丽',
+      fid:'',
+      mid:'',
+      pid:'11',
+      cid:["24","25","26"],
+      bid:["11p"],
+      imgurl:"img/14.jpg",
+      relation:"儿媳",
+      record : "红色_特殊群体"
+    },{
+      id:'12',
+      name:'加马力·艾买提',
+      fid:'01',
+      mid:'01p',
+      pid:'12p',
+      cid:["22"],
+      bid:["11","12","13","14"],
+      imgurl:"img/42.jpg",
+      relation:"女儿",
+      record : ""
+    },{
+      id:'12p',
+      name:'克来木汗·依明',
+      fid:'',
+      mid:'',
+      pid:'12',
+      cid:["22"],
+      bid:["12p"],
+      imgurl:"img/02.jpg",
+      relation:"女婿",
+      record : "橙色_在逃人员"
+    },{
+      id:'13',
+      name:'艾山·阿不都如',
+      fid:'01',
+      mid:'01p',
+      pid:'',
+      cid:[],
+      bid:["11","12","13","14"],
+      imgurl:"img/12.jpg",
+      relation:"儿子",
+      record : ""
+    },{
+      id:'14',
+      name:'吐拉汗·吐尔迪',
+      fid:'01',
+      mid:'01p',
+      pid:'14p',
+      cid:["22","23"],
+      bid:["11","12","13","14"],
+      imgurl:"img/22.jpg",
+      relation:"儿子",
+      record : ""
+    },{
+      id:'14p',
+      name:'赛比热·如则尼亚孜',
+      fid:'',
+      mid:'',
+      pid:'14',
+      cid:["22","23"],
+      bid:["14p"],
+      imgurl:"img/24.jpg",
+      relation:"儿媳",
+      record : ""
+    }],
+  [
+    {
+      id:'24',
+      name:'努尔顿·依米拉',
+      fid:'11',
+      mid:'11p',
+      pid:'',
+      cid:[],
+      bid:["24","25","26"],
+      imgurl:"img/13.jpg",
+      relation:"孙子",
+      record : ""
+    },{
+      id:'25',
+      name:'努尔顿·依米拉',
+      fid:'11',
+      mid:'11p',
+      pid:'',
+      cid:[],
+      bid:["24","25","26"],
+      imgurl:"img/43.jpg",
+      relation:"孙子",
+      record : ""
+    },{
+      id:'26',
+      name:'努尔顿·依米拉',
+      fid:'11',
+      mid:'11p',
+      pid:'',
+      cid:[],
+      bid:["24","25","26"],
+      imgurl:"img/23.jpg",
+      relation:"孙子",
+      record : ""
+    },{
+      id:'21',
+      name:'努尔顿·依米拉',
+      fid:'12',
+      mid:'12p',
+      pid:'21p',
+      cid:["31","31","33","34"],
+      bid:["21"],
+      imgurl:"img/21.jpg",
+      relation:"孙子",
+      record : ""
+    },{
+      id:'21p',
+      name:'努尔顿·米拉',
+      fid:'',
+      mid:'',
+      pid:'21',
+      cid:["31","31","33","34"],
+      bid:["21p"],
+      imgurl:"img/24.jpg",
+      relation:"孙媳",
+      record : ""
+    },{
+      id:'22',
+      name:'艾合麦提江',
+      fid:'14',
+      mid:'14p',
+      pid:'',
+      cid:[],
+      bid:["22","23"],
+      imgurl:"img/21.jpg",
+      relation:"孙子",
+      record : ""
+    },{
+      id:'23',
+      name:'阿依乃再?麦麦提',
+      fid:'14',
+      mid:'14p',
+      pid:'',
+      cid:[],
+      bid:["22","23"],
+      imgurl:"img/21.jpg",
+      relation:"孙子",
+      record : ""
+    }],[
+    {
+      id:'31',
+      name:'阿依乃再?麦麦提',
+      fid:'21',
+      mid:'21p',
+      pid:'',
+      cid:[],
+      bid:["31","32","33","34"],
+      imgurl:"img/41.jpg",
+      relation:"曾孙",
+      record : ""
+    },{
+      id:'32',
+      name:'阿依乃再?麦麦提',
+      fid:'21',
+      mid:'21p',
+      pid:'',
+      cid:[],
+      bid:["31","32","33","34"],
+      imgurl:"img/41.jpg",
+      relation:"曾孙",
+      record : ""
+    },{
+      id:'33',
+      name:'阿依乃再?麦麦提',
+      fid:'21',
+      mid:'21p',
+      pid:'',
+      cid:[],
+      bid:["31","32","33","34"],
+      imgurl:"img/41.jpg",
+      relation:"曾孙",
+      record : ""
+    },{
+      id:'34',
+      name:'阿依乃再?麦麦提',
+      fid:'21',
+      mid:'21p',
+      pid:'',
+      cid:[],
+      bid:["31","32","33","34"],
+      imgurl:"img/41.jpg",
+      relation:"曾孙",
+      record : ""
+    }]
+  ];
+var opt = {
+  data : json,
+  id : "genogram",
+  coordX : 180,   //节点x轴间距
+  coordY : 280,   //节点y轴间距
+  selfH : 190,    //节点高度
+  imgW : 100,      //图片宽高
+  listener : function(obj,msg){
+    // obj 点击对象, msg 对象携带的数据
+  }
+};
+new Genogram(opt);
+</script>
+     
+</body>  
+</html>  
