@@ -27,6 +27,7 @@ Genogram.prototype = {
 			for(var j = 0; j < data[i].length; j++){
 				if(data[i][j].bid.length == 1 && data[i][j].fid){
 					var arrp = [];
+					// ???????????
 					for(var m = 0;m<data.length; m++){
 						for(var n =0;n<data[m].length; n++){
 							if(data[i][j].fid == data[m][n].id || data[i][j].mid == data[m][n].id){
@@ -35,10 +36,29 @@ Genogram.prototype = {
 						}
 					}
 					var oldOx=data[i][j].x;
-					data[i][j].x = Math.abs((arrp[1]-arrp[0])/2) + Math.min(arrp[0],arrp[1]);
+					if(arrp.length == 1){
+							
+						if(data[i][j].x < arrp[0]){
+							data[i][j].x = arrp[0];
+						}else{
+							for(var k = 0;k<data[i-1].length; k++){
+								if(data[i][j].fid == data[i-1][k].id || data[i][j].mid == data[i-1][k].id){
+									var olx = data[i-1][k].x;
+									data[i-1][k].x = data[i][j].x;
+									for(var next = k+1;next < data[i-1].length; next++){
+										data[i-1][next].x = data[i-1][next].x - olx + data[i-1][k].x;
+									}
+								}
+							}
+						}
+					}else if(arrp.length == 2){
+						data[i][j].x = Math.abs((arrp[1]-arrp[0])/2) + Math.min(arrp[0],arrp[1]);
+					}
+					// ??????????
 					for(var m = j+1; m < data[i].length; m++){
 						data[i][m].x = data[i][m].x-oldOx + data[i][j].x;
 					}
+					
 				}else{
 					var chalf, arr = [];
 					for(var m = j;m < data[i].length; m++){
@@ -57,10 +77,14 @@ Genogram.prototype = {
 								if(tick == data[i][j].bid.length){
 									tick=0;
 									if(data[m][n].x < chalf){
-										var oldc = data[m][n].x;
-										data[m][n].x = chalf-coordX/2;
-										for(var b = n+1;b<data[m].length;b++){
-											data[m][b].x = data[m][n].x+data[m][b].x-oldc;
+										if(!data[m][n].pid){
+											data[m][n].x = chalf;
+										}else{
+											var oldc = data[m][n].x;
+											data[m][n].x = chalf-coordX/2;
+											for(var b = n+1;b<data[m].length;b++){
+												data[m][b].x = data[m][n].x+data[m][b].x-oldc;
+											}
 										}
 									}else{
 										var s =j-data[i][j].bid.length+1;
@@ -90,6 +114,7 @@ Genogram.prototype = {
 				if(data[i][j].fid || data[i][j].mid){
 					this.draw.polyline(data[i][j].x + "," + data[i][j].y + " " + data[i][j].x + "," + (data[i][j].y-lineH * (data[i][j].bid.length ==1 ? 2 :1)));
 				}
+				// if(data[i][j].pid )
 				if(data[i][j].pid && data[i][j+1] && data[i][j].pid == data[i][j+1].id){
 					this.draw.polyline((data[i][j].x-lineStrokeW) + "," + (data[i][j].y+selfH+lineH) + " " + (data[i][j+1].x+lineStrokeW) + "," + (data[i][j+1].y+selfH+lineH));
 					// 父类确定中心线
