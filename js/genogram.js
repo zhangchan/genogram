@@ -135,6 +135,9 @@ Genogram.prototype = {
 						this.draw.polyline(midX + "," + (arr[0].y - lineH) + " " + midX + "," + (arr[arr.length-1].y - lineH*2));
 					}
 				}
+				if(!data[i][j].cid.length && data[i][j].pid){
+					this.draw.polyline(data[i][j].x +","+(data[i][j].y+selfH)+" "+data[i][j].x+","+ (data[i][j].y+selfH+lineH));
+				}
 			}
 		};
 	},
@@ -146,7 +149,7 @@ Genogram.prototype = {
 		}
 		result = {
 			maxW : Math.max.apply(null, arrx) + coordX,
-			minH : Math.max.apply(null, arry) + coordX
+			minH : Math.max.apply(null, arry) + coordX*1.4
 		}
 		return result;
 	},
