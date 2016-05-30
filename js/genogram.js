@@ -7,7 +7,7 @@ Genogram.prototype = {
 		var color = data.record && data.record.indexOf("橙色_") != -1 ? (data.record.indexOf("红色_") != -1 ? "red" : "Darkorange") : (data.record.indexOf("红色_") != -1 ? "red" : "");
 		var image = this.draw.image(data.imgurl, imgW, imgW).attr({"x":-imgW/2,});
 		var group = this.draw.group().attr({"transform":'translate('+ data.x +','+ data.y +')'});
-		var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"")).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color});
+		var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"")).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
 		image.click(function(e){
 			addEvent(this,data);
 		});
@@ -106,17 +106,18 @@ Genogram.prototype = {
 		return data;
 	},
 	"drawLine" : function(data,selfH,lineH,lineStrokeW){
+		var stroke = { width: 2,color: 'black'};
 		for (var i = 0; i <data.length; i++) {
 			for(var j = 0; j <data[i].length; j++){
 				if(data[i][j].cid.length != 0){
-					this.draw.polyline(data[i][j].x + "," + (data[i][j].y+selfH) + " " + data[i][j].x + "," + (data[i][j].y+selfH+lineH));
+					this.draw.polyline(data[i][j].x + "," + (data[i][j].y+selfH) + " " + data[i][j].x + "," + (data[i][j].y+selfH+lineH)).fill('none').stroke(stroke);
 				}
 				if(data[i][j].fid || data[i][j].mid){
-					this.draw.polyline(data[i][j].x + "," + data[i][j].y + " " + data[i][j].x + "," + (data[i][j].y-lineH * (data[i][j].bid.length ==1 ? 2 :1)));
+					this.draw.polyline(data[i][j].x + "," + data[i][j].y + " " + data[i][j].x + "," + (data[i][j].y-lineH * (data[i][j].bid.length ==1 ? 2 :1))).fill('none').stroke(stroke);
 				}
 				// if(data[i][j].pid )
 				if(data[i][j].pid && data[i][j+1] && data[i][j].pid == data[i][j+1].id){
-					this.draw.polyline((data[i][j].x-lineStrokeW) + "," + (data[i][j].y+selfH+lineH) + " " + (data[i][j+1].x+lineStrokeW) + "," + (data[i][j+1].y+selfH+lineH));
+					this.draw.polyline((data[i][j].x-lineStrokeW) + "," + (data[i][j].y+selfH+lineH) + " " + (data[i][j+1].x+lineStrokeW) + "," + (data[i][j+1].y+selfH+lineH)).fill('none').stroke(stroke);
 					// 父类确定中心线
 					// var midX = (data[i][j+1].x - data[i][j].x)/2 + data[i][j].x;
 					// draw.polyline(midX + "," + (data[i][j].y+selfH+lineH) + " " + midX + "," + (data[i][j+1].y+selfH+lineH*2));
@@ -129,15 +130,16 @@ Genogram.prototype = {
 						}
 					}
 					if(data[i][j].bid.length == arr.length){
-						this.draw.polyline((arr[0].x-lineStrokeW) + "," + (arr[0].y - lineH) + " " + (arr[arr.length-1].x + lineStrokeW) + "," + (arr[arr.length-1].y - lineH));
+						this.draw.polyline((arr[0].x-lineStrokeW) + "," + (arr[0].y - lineH) + " " + (arr[arr.length-1].x + lineStrokeW) + "," + (arr[arr.length-1].y - lineH)).fill('none').stroke(stroke);
 						// 子类确定中心线
 						var midX = (arr[arr.length-1].x - arr[0].x)/2 + arr[0].x;
-						this.draw.polyline(midX + "," + (arr[0].y - lineH) + " " + midX + "," + (arr[arr.length-1].y - lineH*2));
+						this.draw.polyline(midX + "," + (arr[0].y - lineH) + " " + midX + "," + (arr[arr.length-1].y - lineH*2)).fill('none').stroke(stroke);
 					}
 				}
 				if(!data[i][j].cid.length && data[i][j].pid){
-					this.draw.polyline(data[i][j].x +","+(data[i][j].y+selfH)+" "+data[i][j].x+","+ (data[i][j].y+selfH+lineH));
+					this.draw.polyline(data[i][j].x +","+(data[i][j].y+selfH)+" "+data[i][j].x+","+ (data[i][j].y+selfH+lineH)).fill('none').stroke(stroke);
 				}
+
 			}
 		};
 	},

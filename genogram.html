@@ -3,15 +3,15 @@
   <head>  
         <meta charset="utf-8">  
         <title>demo</title>  
-  <style>
-    #genogram text{cursor: pointer;}
-    #genogram polyline{fill:none;stroke:black;stroke-width:2;}
-  </style>
-  <script src="js/svg.min.js"></script>
-  <script src="js/genogram.js"></script>
+
   </head> 
 <body>
+    <script src="js/svg.min.js"></script>
+  <script src="js/genogram.js"></script>
+  <script src="js/saveSvgAsPng.js"></script>
+<div><button id="savepng">保存为图片</button></div>
 <div id="genogram"></div>
+<div id="png"></div>
 <script type="text/javascript">
 var json = [
   [
@@ -258,7 +258,20 @@ var opt = {
   }
 };
 new Genogram(opt);
+window.onload = function(){
+
+var savepng = document.getElementById("savepng");
+var canvas = document.getElementById("SvgjsSvg1001");
+savepng.onclick = function(){
+     // svgAsPngUri(canvas, null, function(uri) {
+     //      png.innerHTML = '<img src="' + uri + '" />';
+     //    });
+     // $sandbox.find('.preview').html('<img src="' + uri + '" />');
+    saveSvgAsPng(canvas, "name.png")
+
+  };
+}
 </script>
      
 </body>  
-</html>  
+</html> 
