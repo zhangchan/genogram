@@ -3,19 +3,19 @@ function Genogram(msg){
 	this.init(msg);
 }
 Genogram.prototype = {
-	"createGroup" : function(data,imgW,addEvent,arg){
+	"createGroup" : function(data,imgW,addEvent){
 		var that = this;
 		var color = data.record && data.record.indexOf("橙色_") != -1 ? (data.record.indexOf("红色_") != -1 ? "red" : "Darkorange") : (data.record.indexOf("红色_") != -1 ? "red" : "");
 		var image = this.draw.image(data.imgurl, imgW, imgW).attr({"x":-imgW/2,});
 		var group = this.draw.group().attr({"transform":'translate('+ data.x +','+ data.y +')'});
-		var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
+		var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"")).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
 		image.click(function(e){
 			addEvent(this,data);
 		});
 		group.add(image).add(text);
 		group.on("contextmenu",function(e){
 			e.preventDefault();
-			that.craetMenuLayout({pageX:e.pageX,pageY:e.pageY,id:data.id,menuTo:arg.menuTo});
+			that.craetMenuLayout({pageX:e.pageX,pageY:e.pageY},data.url);
 		});
 
 	},
@@ -160,7 +160,7 @@ Genogram.prototype = {
 		}
 		return result;
 	},
-	"craetMenuLayout" : function(obj){
+	"craetMenuLayout" : function(obj,url){
 		if(!document.getElementById("cmenu")){
 			var cmenu = document.createElement("div"),
 				ul = document.createElement("ul");
@@ -169,40 +169,30 @@ Genogram.prototype = {
 			cmenu.appendChild(ul);
 			document.getElementById("genogram").appendChild(cmenu);
 		}
-		this.createMenuList(obj);
+		this.createMenuList(obj,url);
 	},
-	"createMenuList" : function(obj){
+	"createMenuList" : function(obj,url){
+		if(!url.length) return false;
 		var menu = document.getElementById("cmenu"),
 			list = document.getElementById("cmenu_list"),
 			html='';
 		menu.style.display = "block";	
 		menu.style.top = obj.pageY + "px";
 		menu.style.left = obj.pageX + "px";
-		html += '<li><a href="#" id="gemto">涉案人员案件关系图</a></li>';
+		for(var i = 0; i < url.length; i++){
+			html += '<li><a href="'+ url[i].url +'">'+ url[i].name +'</a></li>';
+		}
 		list.innerHTML = html;
-		document.getElementById("gemto").onclick = function(e){
-			e.preventDefault();
-			obj.menuTo(this,obj.id)
-		};
 
 	},
 	"addTag" : function(desc,collec,pos){
 		var groupDesc = this.draw.group().attr({"transform":'translate(0,0)'});
-		var textDesc = this.draw.text(this.sliceStr(desc)).attr({"fill":"#333","style":"cursor: pointer;width:200px"}).font({ size: 15 });
+		var textDesc = this.draw.text(desc).attr({"fill":"#333","style":"cursor: pointer;width:200px"});
 		var groupCollec = this.draw.group().attr({"transform":'translate('+ (pos.x - 180)+','+ (pos.y - 60)+')'});
-		var textCollec = this.draw.text(collec.name +"\n"+ collec.time).attr({"fill":"#333","style":"cursor: pointer;"}).font({ size: 15 });
+		var textCollec = this.draw.text(collec.name +"\n"+ collec.time).attr({"fill":"#333","style":"cursor: pointer;"});
 		groupDesc.add(textDesc);
 		groupCollec.add(textCollec);
 	},
-	"sliceStr" : function (str){  
-     var s=str,reg=/.{19}/g,rs=s.match(reg);  
-     if(str.length<10){  
-        return str;  
-     }else{  
-        rs.push(s.substring(rs.join('').length));  
-     }  
-     return rs.join("\n");  
-    },
 	"init" : function(arg){
 		var defaultVal = {
 			data : [],
@@ -217,8 +207,7 @@ Genogram.prototype = {
 			    name : "",
 			    time : ""
 			},
-			listener : function(){},
-			menuTo : function(){}
+			listener : function(){}
 		};
 		var lineH = (arg.coordY - arg.selfH)/3;
 		if(arg && typeof arg == "object" ){
@@ -244,21 +233,19 @@ Genogram.prototype = {
 		var createNodes = (function(data){
 			for(var i = 0; i <data.length;i++){
 				for(var j = 0; j < data[i].length; j++){
-					that.createGroup(data[i][j],arg.imgW,arg.listener,arg); 
+					that.createGroup(data[i][j],arg.imgW,arg.listener); 
 				}
 			}
 		})(data);
 		this.drawLine(data,arg.selfH,lineH,arg.lineStrokeW);
 		this.addTag(arg.desc,arg.collec,{x:stage.maxW,y:stage.minH});
 		document.oncontextmenu = function(e){
-			if(document.getElementById("cmenu") && e.target.tagName == "svg"){
+			if(e.target.tagName == "svg"){
 				document.getElementById("cmenu").style.display = "none";
 			}
 		}
 		document.onclick = function(){
-			if(document.getElementById("cmenu")){
-				document.getElementById("cmenu").style.display = "none";
-			}
+			document.getElementById("cmenu").style.display = "none";
 		}
 	}
 }

@@ -12,6 +12,14 @@
 <div><button id="savepng">保存为图片</button></div>
 <div id="genogram"></div>
 <div id="png"></div>
+<style type="text/css">
+  #cmenu{ width: 180px;height: auto;border: 1px solid #ddd;position: absolute;z-index: 999;left: 0;top: 0;background: #fff;}
+  #cmenu ul{padding: 0;margin: 0}
+  #cmenu li{list-style-type: none;width: 100%;height: 30px;line-height: 30px;}
+  #cmenu li a{width: 92%;padding-left: 8%; display: block; text-decoration: none;font-size: 14px;color: #000;color: #666;}
+  #cmenu li a:hover{background: #eee;}
+</style>
+
 <script type="text/javascript">
 var json1 = [
   [
@@ -19,6 +27,11 @@ var json1 = [
       id:'01',
       name:'尼牙孜·阿不都拉',
       fid:'',
+      url:[
+        {name :"去百度",url :"http://www.baidu.com/"},
+        {name :"去腾讯",url :"http://www.qq.com/"},
+        {name :"去知乎",url :"http://www.zhihu.com/"}
+      ],
       mid:'',
       pid:'',
       cid:["11","12","13"],
@@ -44,6 +57,7 @@ var json1 = [
     {
       id:'11',
       name:'巴哈提古丽',
+     
       fid:'01',
       mid:'01p',
       pid:'11p',
@@ -55,6 +69,7 @@ var json1 = [
     },{
       id:'11p',
       name:'巴哈提古丽',
+     
       fid:'',
       mid:'',
       pid:'11',
@@ -66,6 +81,7 @@ var json1 = [
     },{
       id:'12',
       name:'加马力·艾买提',
+     
       fid:'01',
       mid:'01p',
       pid:'',
@@ -79,6 +95,7 @@ var json1 = [
     {
       id:'13',
       name:'艾山·阿不都如',
+     
       fid:'01',
       mid:'01p',
       pid:'',
@@ -90,6 +107,7 @@ var json1 = [
     },{
       id:'14',
       name:'吐拉汗·吐尔迪',
+     
       fid:'01',
       mid:'01p',
       pid:'14p',
@@ -101,6 +119,7 @@ var json1 = [
     },{
       id:'14p',
       name:'赛比热·如则尼亚孜',
+     
       fid:'',
       mid:'',
       pid:'14',
@@ -114,6 +133,7 @@ var json1 = [
     {
       id:'24',
       name:'努尔顿·依米拉',
+     
       fid:'11',
       mid:'11p',
       pid:'',
@@ -125,6 +145,7 @@ var json1 = [
     },{
       id:'25',
       name:'努尔顿·依米拉',
+     
       fid:'11',
       mid:'11p',
       pid:'',
@@ -136,6 +157,7 @@ var json1 = [
     },{
       id:'26',
       name:'努尔顿·依米拉',
+     
       fid:'11',
       mid:'11p',
       pid:'',
@@ -147,6 +169,7 @@ var json1 = [
     },{
       id:'21',
       name:'努尔顿·依米拉',
+     
       fid:'12',
       mid:'',
       pid:'21p',
@@ -158,6 +181,7 @@ var json1 = [
     },{
       id:'21p',
       name:'努尔顿·米拉',
+     
       fid:'',
       mid:'',
       pid:'21',
@@ -169,6 +193,7 @@ var json1 = [
     },{
       id:'22',
       name:'艾合麦提江',
+     
       fid:'14',
       mid:'14p',
       pid:'',
@@ -180,6 +205,7 @@ var json1 = [
     },{
       id:'23',
       name:'阿依乃再?麦麦提',
+     
       fid:'14',
       mid:'14p',
       pid:'',
@@ -192,6 +218,7 @@ var json1 = [
     {
       id:'31',
       name:'阿依乃再?麦麦提',
+     
       fid:'21',
       mid:'21p',
       pid:'',
@@ -203,6 +230,7 @@ var json1 = [
     },{
       id:'32',
       name:'阿依乃再?麦麦提',
+     
       fid:'21',
       mid:'21p',
       pid:'',
@@ -214,6 +242,7 @@ var json1 = [
     },{
       id:'33',
       name:'阿依乃再?麦麦提',
+     
       fid:'21',
       mid:'21p',
       pid:'',
@@ -225,6 +254,7 @@ var json1 = [
     },{
       id:'34',
       name:'阿依乃再?麦麦提',
+     
       fid:'21',
       mid:'21p',
       pid:'34p',
@@ -236,6 +266,7 @@ var json1 = [
     },{
       id:'34p',
       name:'阿依乃再?麦麦提',
+     
       fid:'',
       mid:'',
       pid:'34',
@@ -251,6 +282,7 @@ var json = [
         {
             "id": "43367819090701234",
             "name": "买买提",
+            url:[{name :"1111",url :"http://www.baidu.com/"}],
             "fid": "0bd77cd0f19343dd9df08a6f7a90febd",
             "mid": "",
             "pid": "",
@@ -270,6 +302,7 @@ var json = [
         {
             "id": "43367819090701235",
             "name": "买一",
+            url:[{name :"去百度",url :"http://www.baidu.com/"},{name :"去腾讯",url :"http://www.qq.com/"}],
             "fid": "43367819090701234",
             "mid": "",
             "pid": "",
@@ -288,6 +321,7 @@ var json = [
         {
             "id": "43367819090701237",
             "name": "买三",
+           
             "fid": "43367819090701234",
             "mid": "",
             "pid": "",
@@ -305,6 +339,7 @@ var json = [
         {
             "id": "43367819090701238",
             "name": "买买五",
+           
             "fid": "43367819090701235",
             "mid": "",
             "pid": "",
@@ -320,6 +355,7 @@ var json = [
         {
             "id": "43367819090701239",
             "name": "买买四",
+           
             "fid": "43367819090701235",
             "mid": "",
             "pid": "",
@@ -344,6 +380,7 @@ var json = [
         {
             "id": "43367819090651335",
             "name": "",
+           
             "fid": "43367819090701239",
             "mid": "",
             "pid": "",
@@ -363,6 +400,7 @@ var json = [
         {
             "id": "43367819090681335",
             "name": "",
+           
             "fid": "43367819090701239",
             "mid": "",
             "pid": "",
@@ -382,6 +420,7 @@ var json = [
         {
             "id": "43367819090701334",
             "name": "热力",
+           
             "fid": "43367819090701239",
             "mid": "",
             "pid": "",
@@ -403,6 +442,7 @@ var json = [
         {
             "id": "43367819090701335",
             "name": "",
+           
             "fid": "43367819090701239",
             "mid": "",
             "pid": "",
@@ -422,6 +462,7 @@ var json = [
         {
             "id": "43367819090701336",
             "name": "",
+           
             "fid": "43367819090701239",
             "mid": "",
             "pid": "",
@@ -441,6 +482,7 @@ var json = [
         {
             "id": "43367819090721335",
             "name": "",
+           
             "fid": "43367819090701239",
             "mid": "",
             "pid": "",
@@ -464,6 +506,7 @@ var json = [
         {
             "id": "43367819090701365",
             "name": "",
+           
             "fid": "43367819090701334",
             "mid": "",
             "pid": "",
@@ -478,6 +521,7 @@ var json = [
         {
             "id": "43367819090701324",
             "name": "",
+           
             "fid": "43367819090721335",
             "mid": "",
             "pid": "",
@@ -496,6 +540,7 @@ var json = [
         {
             "id": "43367819090701236",
             "name": "买二",
+           
             "fid": "43367819090701324",
             "mid": "",
             "pid": "",
@@ -516,8 +561,21 @@ var opt = {
   coordY : 280,   //节点y轴间距
   selfH : 190,    //节点高度
   imgW : 100,      //图片宽高
+  desc : "家谱aSasASasaSsAS说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明",   //家谱说明
+  collec : {
+    name : "采集人采集人", //采集人
+    time : "2016-6-30 15:38:40"
+  },
   listener : function(obj,msg){
     // obj 点击对象, msg 对象携带的数据
+    // alert(1)
+  },
+  menuTo :function(obj,id){
+    console.log(obj.innerText,id);
+
+    
+    // location.href="http://www.baidu.com/";
+
   }
 };
 new Genogram(opt);
@@ -534,6 +592,7 @@ savepng.onclick = function(){
 
   };
 }
+
 </script> 
      
 </body>  
