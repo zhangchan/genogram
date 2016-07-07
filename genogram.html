@@ -9,34 +9,36 @@
     <script src="js/svg.min.js"></script>
   <script src="js/genogram.js"></script>
   <script src="js/saveSvgAsPng.js"></script>
-<div><button id="savepng">保存为图片</button></div>
-<div id="genogram"></div>
+  <div class="box">
+    <!-- <div><button id="savepng">保存为图片</button></div> -->
+    <div id="genogram"></div>
+  </div>
+
+
 <div id="png"></div>
 <style type="text/css">
+  .box button{  color: #fff;  background-color: #5cb85c;  border-color: #4cae4c;  padding: 2px 3px;  z-index: 33;top:10px;}
+  .box{ width: 800px; height: 600px;overflow: hidden;position: relative;padding: 0;margin: 0;}
   #cmenu{ width: 180px;height: auto;border: 1px solid #ddd;position: absolute;z-index: 999;left: 0;top: 0;background: #fff;}
   #cmenu ul{padding: 0;margin: 0}
   #cmenu li{list-style-type: none;width: 100%;height: 30px;line-height: 30px;}
   #cmenu li a{width: 92%;padding-left: 8%; display: block; text-decoration: none;font-size: 14px;color: #000;color: #666;}
   #cmenu li a:hover{background: #eee;}
+  #genogram{width: 98.5%;height: 98.5%;border: 4px solid #333;overflow: auto;position: relative;}
 </style>
 
 <script type="text/javascript">
 var json1 = [
   [
     {
-      id:'01',
-      name:'尼牙孜·阿不都拉',
-      fid:'',
-      url:[
-        {name :"去百度",url :"http://www.baidu.com/"},
-        {name :"去腾讯",url :"http://www.qq.com/"},
-        {name :"去知乎",url :"http://www.zhihu.com/"}
-      ],
-      mid:'',
-      pid:'',
-      cid:["11","12","13"],
-      bid:["01"],
-      imgurl:"img/01.jpg",
+      id:'01',                           //自己的id
+      name:'尼牙孜·阿不都拉',            // 名称
+      fid:'',                           // 父亲的id
+      mid:'',                           // 母亲id                        
+      pid:'',                           // 配偶id
+      cid:["11","12","13"],             // 后代id
+      bid:["01"],                       // 同级id
+      imgurl:"img/01.jpg",                 
       relation:"户主",
       record : "橙色_在逃人员，红色_特殊群体"
     }
@@ -69,7 +71,6 @@ var json1 = [
     },{
       id:'11p',
       name:'巴哈提古丽',
-     
       fid:'',
       mid:'',
       pid:'11',
@@ -283,7 +284,8 @@ var json = [
             "id": "43367819090701234",
             "name": "买买提",
             url:[{name :"1111",url :"http://www.baidu.com/"}],
-            "fid": "0bd77cd0f19343dd9df08a6f7a90febd",
+            // "fid": "0bd77cd0f19343dd9df08a6f7a90febd",
+            "fid": "",
             "mid": "",
             "pid": "",
             "cid": [
@@ -561,6 +563,9 @@ var opt = {
   coordY : 280,   //节点y轴间距
   selfH : 190,    //节点高度
   imgW : 100,      //图片宽高
+  saveAsPng : true,
+  pngNameRule : "name.png",
+  useVtoH : true,
   desc : "家谱aSasASasaSsAS说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明家谱说明",   //家谱说明
   collec : {
     name : "采集人采集人", //采集人
@@ -571,27 +576,12 @@ var opt = {
     // alert(1)
   },
   menuTo :function(obj,id){
-    console.log(obj.innerText,id);
-
-    
+    // console.log(obj.innerText,id)
     // location.href="http://www.baidu.com/";
-
   }
 };
 new Genogram(opt);
-window.onload = function(){
 
-var savepng = document.getElementById("savepng");
-var canvas = document.getElementById("SvgjsSvg1001");
-savepng.onclick = function(){
-     // svgAsPngUri(canvas, null, function(uri) {
-     //      png.innerHTML = '<img src="' + uri + '" />';
-     //    });
-     // $sandbox.find('.preview').html('<img src="' + uri + '" />');
-    saveSvgAsPng(canvas, "name.png")
-
-  };
-}
 
 </script> 
      

@@ -1,5 +1,5 @@
 function Genogram(msg){
-	var draw;
+	var draw,objSvg;
 	this.init(msg);
 }
 Genogram.prototype = {
@@ -7,7 +7,7 @@ Genogram.prototype = {
 		var that = this;
 		var color = data.record && data.record.indexOf("橙色_") != -1 ? (data.record.indexOf("红色_") != -1 ? "red" : "Darkorange") : (data.record.indexOf("红色_") != -1 ? "red" : "");
 		var image = this.draw.image(data.imgurl, imgW, imgW).attr({"x":-imgW/2,});
-		var group = this.draw.group().attr({"transform":'translate('+ data.x +','+ data.y +')'});
+		var group = this.draw.group().attr({"transform":'translate('+ data.x +','+ data.y +')',"style":"cursor:pointer;"});
 		var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
 		image.click(function(e){
 			addEvent(this,data);
@@ -25,7 +25,7 @@ Genogram.prototype = {
 			for(var j = 0; j < data[i].length; j++){
 				xVal += coordX;
 				data[i][j].x = xVal;
-				data[i][j].y = i*coordY;
+				data[i][j].y = i*coordY +100;
 			}
 		}
 		var tick = 0;
@@ -147,6 +147,39 @@ Genogram.prototype = {
 
 			}
 		};
+	}, 
+	"drawLineH" : function(data,selfH,lineH,lineStrokeW){
+		var stroke = { width: 2,color: 'black'};
+		for (var i = 0; i <data.length; i++) {
+			for(var j = 0; j <data[i].length; j++){
+				if(data[i][j].cid.length != 0){
+					this.draw.polyline((data[i][j].x+selfH/2) + "," + (data[i][j].y+selfH/2) + " " + (data[i][j].x+selfH/2+lineH) + "," + (data[i][j].y+selfH/2)).fill('none').stroke(stroke);
+				}
+				if(data[i][j].fid || data[i][j].mid){
+					this.draw.polyline((data[i][j].x-selfH/2) + "," + (data[i][j].y+selfH/2) + " " + (data[i][j].x -selfH/2 -lineH* (data[i][j].bid.length ==1 ? 2 :1)) + "," + (data[i][j].y+selfH/2)).fill('none').stroke(stroke);
+				}
+				if(data[i][j].pid && data[i][j+1] && data[i][j].pid == data[i][j+1].id){
+					this.draw.polyline((data[i][j].x+selfH/2+lineH) + "," + (data[i][j].y+selfH/2) + " " + (data[i][j+1].x+selfH/2+lineH) + "," + (data[i][j+1].y+selfH/2)).fill('none').stroke(stroke);
+				}
+				if(data[i][j].bid.length>1){
+					var arr = [];
+					for(var m = j;m < data[i].length; m++){
+						if(data[i][j].bid.indexOf(data[i][m].id) != -1){
+							arr.push(data[i][m]);
+						}
+					}
+					if(data[i][j].bid.length == arr.length){
+						this.draw.polyline((arr[0].x-selfH/2- lineH) + "," + (arr[0].y  -lineStrokeW +selfH/2) + " " + (arr[arr.length-1].x -selfH/2- lineH) + "," + (arr[arr.length-1].y + selfH/2 + lineStrokeW)).fill('none').stroke(stroke);
+						// 子类确定中心线
+						var midX = (arr[arr.length-1].y - arr[0].y)/2 + arr[0].y;
+						this.draw.polyline((arr[0].x-selfH/2-2*lineH) + "," + (midX+selfH/2) + " " + (arr[arr.length-1].x -selfH/2- lineH) + "," + (midX+selfH/2)).fill('none').stroke(stroke);
+					}
+				}
+				if(!data[i][j].cid.length && data[i][j].pid){
+					this.draw.polyline((data[i][j].x+selfH/2) +","+(data[i][j].y+selfH/2)+" "+(data[i][j].x+selfH/2+lineH)+","+ (data[i][j].y+selfH/2)).fill('none').stroke(stroke);
+				}
+			}
+		};
 	},
 	"getWH" : function(data,coordX){
 		var arrx=[], arry=[], result = {};
@@ -184,10 +217,81 @@ Genogram.prototype = {
 			e.preventDefault();
 			obj.menuTo(this,obj.id)
 		};
-
+	},
+	"addDirection" : function(obj,data,arg,size,btnf){
+		var that = this;
+		var btn = this.createBtn({
+			type : "button",
+			id : "direction",
+			style :{
+				position : "absolute",
+				right : "120px"
+			},
+			text : ""
+		});
+		if(!btnf) {
+			btn.innerText = "横向显示"; 
+			btn.setAttribute("dir","horizontal");
+			document.getElementById(obj).parentNode.appendChild(btn);
+		}else{
+			direc = btnf.getAttribute("dir");
+			btnf.innerText = direc == "horizontal" ? "竖向显示" : "横向显示"; 
+			btnf.setAttribute("dir",direc == "horizontal" ? "vertical" : "horizontal");
+		}
+		btn.onclick = function(){
+			var newData = that.changeXY(data);
+			arg.data = newData;
+			that.init(arg,btn);
+		};
+		var png = document.getElementById("savepng")
+		if(png){
+			png.parentNode.removeChild(png);
+			this.addSave(obj,arg.pngNameRule,size,btnf);
+		}
+	},
+	"addSave" : function(obj,name,size,btn){
+		var that = this;
+		var btn = this.createBtn({
+			type : "button",
+			id : "savepng",
+			style :{
+				position : "absolute",
+				right : "35px"
+			},
+			text : "保存为图片"
+		});
+		document.getElementById(obj).parentNode.appendChild(btn);
+		var canvas = document.getElementsByTagName("svg")[0];
+		btn.onclick = function(){
+			var border = that.draw.polyline(0 + "," + 0 + " " + size.x + "," + 0 + " " + size.x + "," + size.y + " " + 0 + ","+ size.y + " "+ 0 +","+0).fill('none').stroke({ width: 2,color: 'black'});
+			saveSvgAsPng(canvas, name);
+			setTimeout(function(){
+				border.remove();
+			},500);
+		};
+	},
+	"createBtn" : function(ele){
+		var btn = document.createElement(ele.type);
+		btn.id = ele.id;
+		btn.style.position = ele.style.position;
+		btn.style.right = ele.style.right;
+		btn.style.top = ele.style.top;
+		btn.innerText = ele.text;
+		return btn;
+	},
+	"changeXY" : function(data){
+		var temp;		
+		for(var i = 0; i < data.length; i++){
+			for(var j = 0; j<data[i].length; j++){
+				temp = data[i][j].x;
+				data[i][j].x = data[i][j].y;
+				data[i][j].y = temp;
+			}
+		}
+		return data
 	},
 	"addTag" : function(desc,collec,pos){
-		var groupDesc = this.draw.group().attr({"transform":'translate(0,0)'});
+		var groupDesc = this.draw.group().attr({"transform":'translate(10,10)'});
 		var textDesc = this.draw.text(this.sliceStr(desc)).attr({"fill":"#333","style":"cursor: pointer;width:200px"}).font({ size: 15 });
 		var groupCollec = this.draw.group().attr({"transform":'translate('+ (pos.x - 180)+','+ (pos.y - 60)+')'});
 		var textCollec = this.draw.text(collec.name +"\n"+ collec.time).attr({"fill":"#333","style":"cursor: pointer;"}).font({ size: 15 });
@@ -203,16 +307,19 @@ Genogram.prototype = {
      }  
      return rs.join("\n");  
     },
-	"init" : function(arg){
+	"init" : function(arg,btn){
 		var defaultVal = {
 			data : [],
 			id : "",
 			coordX : 180,
 			coordY : 280, 
-			selfH : 190, 
+			selfH : 190,
 			lineStrokeW : 1,
 			imgW : 100,
 			desc : "",
+			saveAsPng : false, // 使用保存为图片按钮
+			pngNameRule : "name.png",
+			useVtoH : false,   // 使用横排竖排功能
 			collec : {
 			    name : "",
 			    time : ""
@@ -220,7 +327,7 @@ Genogram.prototype = {
 			listener : function(){},
 			menuTo : function(){}
 		};
-		var lineH = (arg.coordY - arg.selfH)/3;
+		var lineH;
 		if(arg && typeof arg == "object" ){
 			for(var key in defaultVal){
 				arg[key] = arg[key] ? arg[key] :defaultVal[key];
@@ -238,8 +345,12 @@ Genogram.prototype = {
 		}
 		document.getElementById(arg.id).innerHTML = "";
 		var that =this;
-		var data = this.setDefaultXY(arg.data,arg.coordX,arg.coordY);
+		var data = arg.data;
+		if(typeof data[0][0].x != "number"){
+			data = this.setDefaultXY(arg.data,arg.coordX,arg.coordY);
+		}
 		var stage = this.getWH(data,arg.coordX);
+		stage.maxW = stage.maxW < 800 ? 800 : stage.maxW
 		this.draw = SVG(arg.id).size(stage.maxW,stage.minH);
 		var createNodes = (function(data){
 			for(var i = 0; i <data.length;i++){
@@ -248,8 +359,16 @@ Genogram.prototype = {
 				}
 			}
 		})(data);
-		this.drawLine(data,arg.selfH,lineH,arg.lineStrokeW);
+		if(!btn || (btn && btn.getAttribute("dir") == "vertical")){
+			lineH = (arg.coordY - arg.selfH)/3
+			this.drawLine(data,arg.selfH,lineH,arg.lineStrokeW);
+		}else{
+			lineH = (arg.coordY - arg.selfH)/3
+			this.drawLineH(data,arg.selfH,lineH,arg.lineStrokeW);
+		}
 		this.addTag(arg.desc,arg.collec,{x:stage.maxW,y:stage.minH});
+		arg.saveAsPng && this.addDirection(arg.id,data,arg,{x:stage.maxW,y:stage.minH},btn);
+		arg.useVtoH && this.addSave(arg.id,arg.pngNameRule,{x:stage.maxW,y:stage.minH},btn);
 		document.oncontextmenu = function(e){
 			if(document.getElementById("cmenu") && e.target.tagName == "svg"){
 				document.getElementById("cmenu").style.display = "none";
