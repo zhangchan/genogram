@@ -15,7 +15,7 @@ Genogram.prototype = {
 		group.add(image).add(text);
 		group.on("contextmenu",function(e){
 			e.preventDefault();
-			that.craetMenuLayout({pageX:e.pageX,pageY:e.pageY,id:data.id,menuTo:arg.menuTo});
+			that.craetMenuLayout({usemenu:data.usemenu,pageX:e.pageX,pageY:e.pageY,id:data.id,menuTo:arg.menuTo});
 		});
 
 	},
@@ -23,6 +23,10 @@ Genogram.prototype = {
 		for (var i = data.length - 1; i >= 0; i--) {
 			var xVal = 0;
 			for(var j = 0; j < data[i].length; j++){
+				if(i == 0){
+					data[i][j].fid = "";
+					data[i][j].mid = "";
+				}
 				xVal += coordX;
 				data[i][j].x = xVal;
 				data[i][j].y = i*coordY +100;
@@ -80,7 +84,7 @@ Genogram.prototype = {
 							arr.push(data[i][m]);
 						}
 					}
-					if(data[i][j].bid.length == arr.length){
+					if(arr.length!=0&&data[i][j].bid.length == arr.length){
 						chalf = (arr[arr.length-1].x - arr[0].x)/2 +arr[0].x;
 					}
 					for(var m = 0;m<data.length; m++){
@@ -194,6 +198,7 @@ Genogram.prototype = {
 		return result;
 	},
 	"craetMenuLayout" : function(obj){
+		if(!obj.usemenu) return false;
 		if(!document.getElementById("cmenu")){
 			var cmenu = document.createElement("div"),
 				ul = document.createElement("ul");
@@ -300,7 +305,7 @@ Genogram.prototype = {
 	},
 	"sliceStr" : function (str){  
      var s=str,reg=/.{19}/g,rs=s.match(reg);  
-     if(str.length<10){  
+     if(str.length<19){  
         return str;  
      }else{  
         rs.push(s.substring(rs.join('').length));  
