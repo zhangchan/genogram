@@ -1,5 +1,5 @@
 function Genogram(msg){
-	var draw,objSvg,arg,textDesc;
+	var draw,objSvg,arg,textDesc,arrowLine = [];
 	this.init(msg);
 }
 Genogram.prototype = {
@@ -11,13 +11,19 @@ Genogram.prototype = {
 		var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"") + "\n" + (data.usemenu ? "涉案人员" : "")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
 		image.click(function(e){
 			addEvent(this,data,e);
+		}).mouseover(function() { 
+			arg.useViewRelationBtn && that.relationLine(data,arg); 
+		}).mouseout(function() {  
+			that.arrowLine.map(function(e){
+				e.remove();
+			});
+			that.draw.get(0).clear()
 		});
 		group.add(image).add(text);
 		group.on("contextmenu",function(e){
 			e.preventDefault();
 			that.craetMenuLayout({usemenu:data.usemenu,pageX:e.pageX,pageY:e.pageY,id:data.id,menuTo:arg.menuTo,offsetTop:arg.offsetTop,offsetLeft:arg.offsetLeft},data.url);
 		});
-
 	},
 	"setDefaultXY" : function(data,coordX,coordY){
 		function oneChild(m,k){
@@ -103,9 +109,9 @@ Genogram.prototype = {
 					for(var m = j;m < data[i].length; m++){
 						if(data[i][m].fid && data[i][j].bid.indexOf(data[i][m].id) != -1){
 							arr.push(data[i][m]);
+
 						}
 					}
-					
 					if(arr.length>1&&data[i][j].bid.length == arr.length){
 						chalf = (arr[arr.length-1].x - arr[0].x)/2 +arr[0].x;
 					}
@@ -142,17 +148,23 @@ Genogram.prototype = {
 		return data;
 	},
 	"drawLine" : function(data,selfH,lineH,lineStrokeW){
-		var stroke = { width: 2,color: 'black'};
+		var stroke = { width: 2,color: 'black'},posX,posY;
 		for (var i = 0; i <data.length; i++) {
 			for(var j = 0; j <data[i].length; j++){
-				if(data[i][j].cid.length != 0){
+				if(data[i][j].cid.length != 0 || data[i][j].pid){
 					this.draw.polyline(data[i][j].x + "," + (data[i][j].y+selfH) + " " + data[i][j].x + "," + (data[i][j].y+selfH+lineH)).fill('none').stroke(stroke);
 				}
 				if(data[i][j].fid || data[i][j].mid){
 					this.draw.polyline(data[i][j].x + "," + data[i][j].y + " " + data[i][j].x + "," + (data[i][j].y-lineH * (data[i][j].bid.length ==1 ? 2 :1))).fill('none').stroke(stroke);
 				}
-				if(data[i][j].pid && data[i][j+1] && data[i][j].pid == data[i][j+1].id){
-					this.draw.polyline((data[i][j].x-lineStrokeW) + "," + (data[i][j].y+selfH+lineH) + " " + (data[i][j+1].x+lineStrokeW) + "," + (data[i][j+1].y+selfH+lineH)).fill('none').stroke(stroke);
+				if(data[i][j].pid && data[i][j+1]){
+					for(var m = j; m < data[i].length;m++){
+						if(data[i][j].id == data[i][m].pid){
+							posX = data[i][m].x;
+							posY = data[i][m].y;
+						}
+					}
+					this.draw.polyline((data[i][j].x-lineStrokeW) + "," + (data[i][j].y+selfH+lineH) + " " + (posX+lineStrokeW) + "," + (posY+selfH+lineH)).fill('none').stroke(stroke);
 				}
 				if(data[i][j].bid.length>1){
 					var arr = [];
@@ -168,25 +180,27 @@ Genogram.prototype = {
 						this.draw.polyline(midX + "," + (arr[0].y - lineH) + " " + midX + "," + (arr[arr.length-1].y - lineH*2)).fill('none').stroke(stroke);
 					}
 				}
-				if(!data[i][j].cid.length && data[i][j].pid){
-					this.draw.polyline(data[i][j].x +","+(data[i][j].y+selfH)+" "+data[i][j].x+","+ (data[i][j].y+selfH+lineH)).fill('none').stroke(stroke);
-				}
-
 			}
 		};
 	}, 
 	"drawLineH" : function(data,selfH,lineH,lineStrokeW){
-		var stroke = { width: 2,color: 'black'};
+		var stroke = { width: 2,color: 'black'},posX,posY;
 		for (var i = 0; i <data.length; i++) {
 			for(var j = 0; j <data[i].length; j++){
-				if(data[i][j].cid.length != 0){
+				if(data[i][j].cid.length != 0 || data[i][j].pid){
 					this.draw.polyline((data[i][j].x+selfH/2) + "," + (data[i][j].y+selfH/2) + " " + (data[i][j].x+selfH/2+lineH) + "," + (data[i][j].y+selfH/2)).fill('none').stroke(stroke);
 				}
 				if(data[i][j].fid || data[i][j].mid){
 					this.draw.polyline((data[i][j].x-selfH/2) + "," + (data[i][j].y+selfH/2) + " " + (data[i][j].x -selfH/2 -lineH* (data[i][j].bid.length ==1 ? 2 :1)) + "," + (data[i][j].y+selfH/2)).fill('none').stroke(stroke);
 				}
-				if(data[i][j].pid && data[i][j+1] && data[i][j].pid == data[i][j+1].id){
-					this.draw.polyline((data[i][j].x+selfH/2+lineH) + "," + (data[i][j].y+selfH/2) + " " + (data[i][j+1].x+selfH/2+lineH) + "," + (data[i][j+1].y+selfH/2)).fill('none').stroke(stroke);
+				if(data[i][j].pid && data[i][j+1]){
+					for(var m = j; m < data[i].length;m++){
+						if(data[i][j].id == data[i][m].pid){
+							posX = data[i][m].x;
+							posY = data[i][m].y;
+						}
+					}
+					this.draw.polyline((data[i][j].x+selfH/2+lineH) + "," + (data[i][j].y+selfH/2) + " " + (posX+selfH/2+lineH) + "," + (posY+selfH/2)).fill('none').stroke(stroke);
 				}
 				if(data[i][j].bid.length>1){
 					var arr = [];
@@ -202,23 +216,36 @@ Genogram.prototype = {
 						this.draw.polyline((arr[0].x-selfH/2-2*lineH) + "," + (midX+selfH/2) + " " + (arr[arr.length-1].x -selfH/2- lineH) + "," + (midX+selfH/2)).fill('none').stroke(stroke);
 					}
 				}
-				if(!data[i][j].cid.length && data[i][j].pid){
-					this.draw.polyline((data[i][j].x+selfH/2) +","+(data[i][j].y+selfH/2)+" "+(data[i][j].x+selfH/2+lineH)+","+ (data[i][j].y+selfH/2)).fill('none').stroke(stroke);
-				}
+			
 			}
 		};
 	},
-	"getWH" : function(data,coordX){
-		var arrx=[], arry=[], result = {};
-		for(var i = 0; i < data.length;i++){
-			arrx.push(data[i][data[i].length -1].x);
-			arry.push(data[i][data[i].length -1].y);
+	"relationLine" : function(obj,arg){
+		if(!obj.relations.length) return false;
+		var ids = obj.relations.map(function(row){
+			return row.id;
+		});
+		this.arrowLine = [];
+		var res = this.getObj(ids,arg.data), midX, midY;
+		var stroke = { width: 1,color: 'blue',dasharray:"3,3"};
+		res = res.map(function(row){
+			for(var i = 0;i<obj.relations.length;i++){
+				if(row.id == obj.relations[i].id){
+					row.RName = obj.relations[i].RName;
+					return row;
+				}
+			}
+		});
+		for(var i = 0; i<res.length; i++){
+			midX =  (res[i].x - obj.x)/2 + obj.x;
+			midY = ((res[i].y+ arg.imgW/2) - (obj.y+arg.imgW/2))/2  + (obj.y+arg.imgW/2);
+			this.arrowLine[i] = this.draw.path("M"+ " " +obj.x + "," + (obj.y+arg.imgW/2) + " " + midX + " " + midY + " " + res[i].x + "," + (res[i].y+ arg.imgW/2)).fill('none').stroke(stroke)
+			this.arrowLine[i].marker('mid', 200, 50, function(add) {
+			   add.text(res[i].RName).font({ size: 15 }).attr({"x":100,"y":0,"dy":0,"text-anchor":"middle","fill":'blue',"style":"cursor: pointer;"})
+			}).marker('end', 13, 13, function(add) {
+				 add.path("M2,2 L2,11 L10,6 L2,2").fill("blue");
+			});
 		}
-		result = {
-			maxW : Math.max.apply(null, arrx) + coordX,
-			minH : Math.max.apply(null, arry) + coordX*1.4
-		}
-		return result;
 	},
 	"craetMenuLayout" : function(obj,url){
 		if(!obj.usemenu) return false;
@@ -303,6 +330,20 @@ Genogram.prototype = {
 			},500);
 		};
 	},
+	"addRelationBtn" : function(obj,name,btn,callback){
+		var that = this;
+		var btn = this.createBtn({
+			type : "button",
+			id : "relationbtn",
+			style :{
+				position : "absolute",
+				right : "190px"
+			},
+			text : "按家族查看"
+		});
+		document.getElementById(obj).parentNode.appendChild(btn);
+		btn.onclick = callback;
+	},
 	"createBtn" : function(ele){
 		var btn = document.createElement(ele.type);
 		btn.id = ele.id;
@@ -322,6 +363,18 @@ Genogram.prototype = {
 			}
 		}
 		return data
+	},
+	"getWH" : function(data,coordX){
+		var arrx=[], arry=[], result = {};
+		for(var i = 0; i < data.length;i++){
+			arrx.push(data[i][data[i].length -1].x);
+			arry.push(data[i][data[i].length -1].y);
+		}
+		result = {
+			maxW : Math.max.apply(null, arrx) + coordX,
+			minH : Math.max.apply(null, arry) + coordX*1.4
+		}
+		return result;
 	},
 	"addTag" : function(desc,collec,pos){
 		var groupDesc = this.draw.group().attr({"transform":'translate(10,10)'});
@@ -356,16 +409,22 @@ Genogram.prototype = {
 		document.getElementById(ele).style.display = "none";
 	},
 	"getObj" : function(id,data){
+		var objArr=[];
+		id = this.checkDataType(id) == "string" ? [id] : id;
 		for (var i = data.length - 1; i >= 0; i--) {
 			for (var j = data[i].length - 1; j >= 0; j--) {
-				if(data[i][j].id == id){
-					return data[i][j];
+				if(id.indexOf(data[i][j].id) != -1){
+					objArr.push(data[i][j]);
 				}
 			}
 		}
+		return objArr;
 	},
 	"changeDesc": function(val){
 		this.textDesc.text(val)
+	},
+	"checkDataType" : function(value) {
+		return Object.prototype.toString.apply(value).slice(8, -1).toLowerCase();
 	},
 	"init" : function(arg,btn){
 		var defaultVal = {
@@ -381,6 +440,7 @@ Genogram.prototype = {
 			pngNameRule : "name.png",
 			useVtoH : false,   // 使用横排竖排功能
 			useViewRelationBtn : false,
+			showRelation : false,
 			currentId:"",
 			offsetTop : 0,
 			offsetLeft : 0,
@@ -389,7 +449,8 @@ Genogram.prototype = {
 			    time : ""
 			},
 			listener : function(){},
-			menuTo : function(){}
+			menuTo : function(){},
+			relationTo : function(){}
 		};
 		var lineH;
 		if(arg && typeof arg == "object" ){
@@ -424,7 +485,7 @@ Genogram.prototype = {
 			}
 		})(data);
 		if(arg.currentId){
-			arg.listener(null,this.getObj(arg.currentId,data));
+			arg.listener(null,this.getObj(arg.currentId,data)[0]);
 			delete arg.currentId;
 		}
 		if(!btn || (btn && btn.getAttribute("dir") == "vertical")){
@@ -437,6 +498,8 @@ Genogram.prototype = {
 		this.addTag(arg.desc,arg.collec,{x:stage.maxW,y:stage.minH});
 		arg.saveAsPng && this.addDirection(arg.id,data,arg,{x:stage.maxW,y:stage.minH},btn);
 		arg.useVtoH && this.addSave(arg.id,arg.pngNameRule,{x:stage.maxW,y:stage.minH},btn);
+		arg.useViewRelationBtn && this.addRelationBtn(arg.id,{x:stage.maxW,y:stage.minH},btn,arg.relationTo);
+		
 		this.createMask(arg.id)
 		this.arg = arg;
 		document.oncontextmenu = function(e){
