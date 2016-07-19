@@ -6,9 +6,12 @@
 
   </head> 
 <body>
-    <script src="js/svg.min.js"></script>
-  <script src="js/genogram.js"></script>
-  <script src="js/saveSvgAsPng.js"></script>
+  <script type="text/javascript" src="js/svg.min.js"></script>
+  <script type="text/javascript" src="js/genogram.js"></script>
+  <script type="text/javascript" src="js/saveSvgAsPng.js"></script>
+  <script type="text/javascript" src="js/svg.filter.js"></script>
+
+
   <div style="height:30px;width:300px;"></div>
   <div class="box" id="box">
     
@@ -37,7 +40,7 @@
 <script type="text/javascript">
 
 
-var json = [
+var json1 = [
   [
     {
       id:'01',                           //自己的id
@@ -795,7 +798,7 @@ json = [
       "name": "拉比彦·太来提",
       "fid": "0513fb41709a4180ac5b78e1bb082f2e",
       "mid": "",
-      "pid": "412825195708084513",
+      "pid": "41282519570822",
       "cid": [
         "413026197503126612"
       ],
@@ -818,9 +821,28 @@ json = [
         "RName" : "父子关系",
         "id" : "622427198801156845"
       }],
-      "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=654123198311230024",
+      "imgurl": "img/11.jpg",
       "relation": "户主",
       "record": "橙色_特殊群体"
+    },
+
+    {
+      "id": "41282519570822",
+      "name": "刘虎全",
+      "record": "",
+      "relation": "配偶",
+      "bid": ["41282519570822"],
+      "relations" : [{
+        "RName" : "亲戚关系",
+        "id" : "622427198801156845"
+      }],
+      "imgurl": "img/02.jpg",
+      "fid": "",
+      "mid": "",
+      "pid": "654123198311230024",
+      "cid": [
+        "413026197503126612"
+      ]
     },
     {
       "id": "412825195708084513",
@@ -835,7 +857,7 @@ json = [
         "RName" : "父子关系",
         "id" : "653125197103083012"
       }],
-      "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=412825195708084513",
+      "imgurl": "img/01.jpg",
       "fid": "",
       "mid": "",
       "pid": "654123198311230024",
@@ -843,25 +865,7 @@ json = [
         "413026197503126612"
       ]
     }
-    ,
-    {
-      "id": "41282519570822",
-      "name": "刘虎全",
-      "record": "",
-      "relation": "配偶",
-      "bid": ["412825195708084513"],
-      "relations" : [{
-        "RName" : "亲戚关系",
-        "id" : "622427198801156845"
-      }],
-      "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=412825195708084513",
-      "fid": "",
-      "mid": "",
-      "pid": "654123198311230024",
-      "cid": [
-        "413026197503126612"
-      ]
-    }
+    
   ],
   [
     {
@@ -869,7 +873,7 @@ json = [
       "id": "413026197503126612",
       "name": "张月军",
       "fid": "654123198311230024",
-      "mid": "412825195708084513",
+      "mid": "41282519570822",
       "pid": "",
       "cid": [
         "653125197103083012"
@@ -887,7 +891,7 @@ json = [
         "RName" : "曾经是朋友",
         "id" : "622427198801156845"
       }],
-      "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=413026197503126612",
+      "imgurl": "img/12.jpg",
       "relation": "户主",
       "record": "橙色_重点人员"
     }
@@ -905,7 +909,7 @@ json = [
         "653125197103083012"
       ],
       "relations" : [],
-      "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=653125197103083012",
+      "imgurl": "img/13.jpg",
       "relation": "儿子",
       "record": ""
     },
@@ -925,7 +929,7 @@ json = [
         "RName" : "情侣",
         "id" : "412825195708084513"
       }],
-      "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=622427198801156845",
+      "imgurl": "img/21.jpg",
       "fid": "",
       "mid": "",
       "pid": "653125197103083012",
@@ -933,13 +937,212 @@ json = [
     }
   ]
 ];
-// var json = "";
+
+
+
+var json = [[{
+    "url": "",
+    "usemenu": false,
+    "id": "653123195503171933",
+    "name": "喀哈尔·麦合木提",
+    "fid": "92d7d4ca25c2429daff141ad4cb49753",
+    "mid": "",
+    "pid": "51310119670701058X",
+    "cid": ["65313019770426061X", "65310119760420044X", "65210119761008224X"],
+    "bid": ["653123195503171933"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=653123195503171933",
+    "relation": "户主",
+    "relations": [],
+    "record": ""
+},
+{
+    "id": "51310119670701058X",
+    "name": "彭红",
+    "record": "",
+    "relation": "配偶",
+    "bid": "51310119670701058X",
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=51310119670701058X",
+    "fid": "",
+    "mid": "",
+    "relations": [],
+    "pid": "653123195503171933",
+    "cid": ["65313019770426061X", "65310119760420044X", "65210119761008224X"]
+}], [{
+    "url": "",
+    "usemenu": false,
+    "id": "65210119761008224X",
+    "name": "热比古丽·买苏木",
+    "fid": "653123195503171933",
+    "mid": "51310119670701058X",
+    "pid": "",
+    "cid": ["652925197409180715"],
+    "bid": ["65313019770426061X", "65310119760420044X", "65210119761008224X"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=65210119761008224X",
+    "relation": "女儿",
+    "relations": [],
+    "record": ""
+},
+{
+    "url": "",
+    "usemenu": false,
+    "id": "65310119760420044X",
+    "name": "徐亚娟",
+    "fid": "653123195503171933",
+    "mid": "51310119670701058X",
+    "pid": "650102198606033014",
+    "cid": ["632124199104115117"],
+    "bid": ["65313019770426061X", "65310119760420044X", "65210119761008224X"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=65310119760420044X",
+    "relation": "女儿",
+    "relations": [],
+    "record": ""
+},
+{
+    "id": "650102198606033014",
+    "name": "茹孜·热合曼",
+    "record": "",
+    "relation": "配偶",
+    "bid": "650102198606033014",
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=650102198606033014",
+    "fid": "",
+    "mid": "",
+    "relations": [],
+    "pid": "65310119760420044X",
+    "cid": ["632124199104115117"]
+},
+{
+    "url": "",
+    "usemenu": false,
+    "id": "65313019770426061X",
+    "name": "毛拉·艾麦尔",
+    "fid": "653123195503171933",
+    "mid": "51310119670701058X",
+    "pid": "653125198505175424",
+    "cid": ["652301198904091534", "410112195610102814"],
+    "bid": ["65313019770426061X", "65310119760420044X", "65210119761008224X"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=65313019770426061X",
+    "relation": "儿子",
+    "relations": [],
+    "record": "橙色_重点人员"
+},
+{
+    "id": "653125198505175424",
+    "name": "吐合提古丽·户达拜尔地",
+    "record": "橙色_重点人员",
+    "relation": "配偶",
+    "bid": "653125198505175424",
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=653125198505175424",
+    "fid": "",
+    "mid": "",
+    "relations": [],
+    "pid": "65313019770426061X",
+    "cid": ["652301198904091534", "410112195610102814"]
+}], [{
+    "url": [{
+        "name": "塔衣尔·依米提的案件关系图",
+        "url": "http://127.0.0.1:8081/ITAP/front/ZP_SWJP.jsp?JZBH=c42af6feae864f73bb33cb1260d68eb4&&ZPLX=涉案人员案件关系图&&LRR=hulingli&&LRSJ=2016-07-17 17:38:34"
+    }],
+    "usemenu": true,
+    "id": "652925197409180715",
+    "name": "李四",
+    "fid": "65210119761008224X",
+    "mid": "",
+    "pid": "230121197405144427",
+    "cid": [],
+    "bid": ["652925197409180715"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=652925197409180715",
+    "relation": "儿子",
+    "relations": [],
+    "record": "红色_在逃人员"
+},
+{
+    "id": "230121197405144427",
+    "name": "王秀波",
+    "record": "",
+    "relation": "配偶",
+    "bid": "230121197405144427",
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=230121197405144427",
+    "fid": "",
+    "mid": "",
+    "relations": [],
+    "pid": "652925197409180715",
+    "cid": []
+},
+{
+    "id": "652925198708160049",
+    "name": "热孜万古丽·艾买尔",
+    "record": "",
+    "relation": "配偶",
+    "bid": "652925198708160049",
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=652925198708160049",
+    "fid": "",
+    "mid": "",
+    "relations": [],
+    "pid": "652925197409180715",
+    "cid": []
+},
+{
+    "url": "",
+    "usemenu": false,
+    "id": "632124199104115117",
+    "name": "阿维福",
+    "fid": "65310119760420044X",
+    "mid": "650102198606033014",
+    "pid": "",
+    "cid": [],
+    "bid": ["632124199104115117"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=632124199104115117",
+    "relation": "儿子",
+    "relations": [],
+    "record": "红色_在逃人员"
+},
+{
+    "url": "",
+    "usemenu": false,
+    "id": "410112195610102814",
+    "name": "刘铁拴",
+    "fid": "65313019770426061X",
+    "mid": "653125198505175424",
+    "pid": "",
+    "cid": [],
+    "bid": ["652301198904091534", "410112195610102814"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=410112195610102814",
+    "relation": "儿子",
+    "relations": [],
+    "record": ""
+},
+{
+    "url": [{
+        "name": "塔衣尔·依米提的案件关系图",
+        "url": "http://127.0.0.1:8081/ITAP/front/ZP_SWJP.jsp?JZBH=c42af6feae864f73bb33cb1260d68eb4&&ZPLX=涉案人员案件关系图&&LRR=hulingli&&LRSJ=2016-07-17 17:38:34"
+    },
+    {
+        "name": "肉孜·麦麦提的案件关系图",
+        "url": "http://127.0.0.1:8081/ITAP/front/ZP_SWJP.jsp?JZBH=9ca44bb5df6944cbbb4c0a41066d6a62&&ZPLX=涉案人员案件关系图&&LRR=hulingli&&LRSJ=2016-07-18 10:28:00"
+    },
+    {
+        "name": "陈利昌的案件关系图",
+        "url": "http://127.0.0.1:8081/ITAP/front/ZP_SWJP.jsp?JZBH=39377bb697cc43df92e114dd7199c38c&&ZPLX=涉案人员案件关系图&&LRR=hulingli&&LRSJ=2016-07-17 17:27:08"
+    }],
+    "usemenu": true,
+    "id": "652301198904091534",
+    "name": "李进义",
+    "fid": "65313019770426061X",
+    "mid": "653125198505175424",
+    "pid": "",
+    "cid": [],
+    "bid": ["652301198904091534", "410112195610102814"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=652301198904091534",
+    "relation": "同事",
+    "relations": [],
+    "record": "橙色_涉稳不放心人员"
+}]];
 var opt = {
   data : json,
   id : "genogram",
-  coordX : 180,   //节点x轴间距
-  coordY : 280,   //节点y轴间距
-  selfH : 205,    //节点高度
+  coordX : 210,   //节点x轴间距
+  coordY : 310,   //节点y轴间距
+  selfH : 235,    //节点高度
   imgW : 100,      //图片宽高
   saveAsPng : true,
   currentId:"1111",

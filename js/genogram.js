@@ -7,20 +7,20 @@ Genogram.prototype = {
 		var that = this;
 		var color = data.record && data.record.indexOf("橙色_") != -1 ? (data.record.indexOf("红色_") != -1 ? "red" : "Darkorange") : (data.record.indexOf("红色_") != -1 ? "red" : "");
 		var image = this.draw.image(data.imgurl, imgW, imgW).attr({"x":-imgW/2,});
-		var group = this.draw.group().attr({"transform":'translate('+ data.x +','+ data.y +')',"style":"cursor:pointer;"});
+		var group = this.draw.group().attr({"uid": data.id+"a","transform":'translate('+ data.x +','+ data.y +')',"style":"cursor:pointer;"});
 		var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"") + "\n" + (data.usemenu ? "涉案人员" : "")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
 		image.click(function(e){
 			addEvent(this,data,e);
 		}).mouseover(function() { 
-			arg.useViewRelationBtn && that.relationLine(data,arg); 
-		}).mouseout(function() {  
+			arg.useViewRelationBtn && that.relationLine(data,arg,group); 
+		}).mouseout(function() {
 			that.arrowLine.map(function(e){
 				e.remove();
 			});
 			that.draw.get(0).clear()
 		});
 		group.add(image).add(text);
-		group.on("contextmenu",function(e){
+		group.on("contextmenu",function(e){ 
 			e.preventDefault();
 			that.craetMenuLayout({usemenu:data.usemenu,pageX:e.pageX,pageY:e.pageY,id:data.id,menuTo:arg.menuTo,offsetTop:arg.offsetTop,offsetLeft:arg.offsetLeft},data.url);
 		});
@@ -74,7 +74,6 @@ Genogram.prototype = {
 							if(data[i][j].cid.length ==1){
 								for(var m=0;m<data[i+1].length;m++){
 									if(data[i][j].cid[0] == data[i+1][m].id){
-
 										var oldx = data[i+1][m].x;
 										data[i+1][m].x=data[i][j].x;
 										for(var n=m+1;n<data[i+1].length;n++){
@@ -96,10 +95,21 @@ Genogram.prototype = {
 							}
 						}
 					}else if(arrp.length == 2){
-						data[i][j].x = Math.abs((arrp[1]-arrp[0])/2) + Math.min(arrp[0],arrp[1]);
+						var midS = Math.abs((arrp[1]-arrp[0])/2) + Math.min(arrp[0],arrp[1])
+						if(data[i][j].x < midS){
+							data[i][j].x = midS;
+						}else{
+							(function(i,j){
+								var temp = data[i][j].x - midS;
+								for(var m=i-1;m<data[i-1].length;m++){
+									data[i-1][m].x = data[i-1][m].x + temp;
+								}
+							})(i,j);
+						}
 						if(data[i][j].cid.length == 1){
 							oneChild(i,j);
 						}
+						
 					}
 					for(var m = j+1; m < data[i].length; m++){
 						data[i][m].x = data[i][m].x-oldOx + data[i][j].x;
@@ -165,6 +175,7 @@ Genogram.prototype = {
 						}
 					}
 					this.draw.polyline((data[i][j].x-lineStrokeW) + "," + (data[i][j].y+selfH+lineH) + " " + (posX+lineStrokeW) + "," + (posY+selfH+lineH)).fill('none').stroke(stroke);
+					
 				}
 				if(data[i][j].bid.length>1){
 					var arr = [];
@@ -220,12 +231,13 @@ Genogram.prototype = {
 			}
 		};
 	},
-	"relationLine" : function(obj,arg){
+	"relationLine" : function(obj,arg,group){
+		this.arrowLine = [];
 		if(!obj.relations.length) return false;
 		var ids = obj.relations.map(function(row){
 			return row.id;
 		});
-		this.arrowLine = [];
+		var groups = this.draw.children();
 		var res = this.getObj(ids,arg.data), midX, midY;
 		var stroke = { width: 1,color: 'blue',dasharray:"3,3"};
 		res = res.map(function(row){
@@ -246,6 +258,16 @@ Genogram.prototype = {
 				 add.path("M2,2 L2,11 L10,6 L2,2").fill("blue");
 			});
 		}
+		for (i = groups.length - 1; i >= 0; i--) {
+			if(groups[i].type == "g" && groups[i].attr("uid") && groups[i] != group && ids.indexOf(groups[i].attr("uid").slice(0,-1)) == -1){
+				groups[i].filter(function(add) {
+					// add.gaussianBlur(3, 0)
+					 add.componentTransfer({
+					    rgb: { type: 'linear', slope: 1.5, intercept: 0.3 }
+					  })
+				});
+			}
+		};
 	},
 	"craetMenuLayout" : function(obj,url){
 		if(!obj.usemenu) return false;
@@ -271,12 +293,6 @@ Genogram.prototype = {
 			html += '<li><a href="'+ url[i].url +'" target="_blank">'+ url[i].name +'</a></li>';
 		}
 		list.innerHTML = html;
-		// html += '<li><a href="#" id="gemto">涉案人员案件关系图</a></li>';
-		// list.innerHTML = html;
-		// document.getElementById("gemto").onclick = function(e){
-		// 	e.preventDefault();
-		// 	obj.menuTo(this,obj.id)
-		// };
 	},
 	"addDirection" : function(obj,data,arg,size,btnf){
 		var that = this;
@@ -499,7 +515,6 @@ Genogram.prototype = {
 		arg.saveAsPng && this.addDirection(arg.id,data,arg,{x:stage.maxW,y:stage.minH},btn);
 		arg.useVtoH && this.addSave(arg.id,arg.pngNameRule,{x:stage.maxW,y:stage.minH},btn);
 		arg.useViewRelationBtn && this.addRelationBtn(arg.id,{x:stage.maxW,y:stage.minH},btn,arg.relationTo);
-		
 		this.createMask(arg.id)
 		this.arg = arg;
 		document.oncontextmenu = function(e){
