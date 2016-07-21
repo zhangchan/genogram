@@ -1,5 +1,12 @@
+/*!
+* genogram.js
+* @version 1.0.8
+* Depending on :  svg.min.js
+* useing :　saveSvgAsPng.js　svg.filter.js
+* BUILT: Tue Jun 21 2016 10:02:37 GMT+0200
+*/
 function Genogram(msg){
-	var draw,objSvg,arg,textDesc,arrowLine = [];
+	var draw,objSvg,arg,textDesc,arrowLine = [],arrowText = [];
 	this.init(msg);
 }
 Genogram.prototype = {
@@ -17,7 +24,10 @@ Genogram.prototype = {
 			that.arrowLine.map(function(e){
 				e.remove();
 			});
-			that.draw.get(0).clear()
+			that.arrowText.map(function(e){
+				e.remove();
+			});
+			that.draw.get(0).clear();
 		});
 		group.add(image).add(text);
 		group.on("contextmenu",function(e){ 
@@ -68,7 +78,7 @@ Genogram.prototype = {
 						}
 					}
 					var oldOx=data[i][j].x;
-					if(arrp.length == 1){			
+					if(arrp.length == 1){		
 						if(data[i][j].x < arrp[0]){
 							data[i][j].x = arrp[0];
 							if(data[i][j].cid.length ==1){
@@ -105,11 +115,10 @@ Genogram.prototype = {
 									data[i-1][m].x = data[i-1][m].x + temp;
 								}
 							})(i,j);
-						}
-						if(data[i][j].cid.length == 1){
-							oneChild(i,j);
-						}
-						
+						}	
+					}
+					if(data[i][j].cid.length == 1){
+						oneChild(i,j);
 					}
 					for(var m = j+1; m < data[i].length; m++){
 						data[i][m].x = data[i][m].x-oldOx + data[i][j].x;
@@ -232,7 +241,7 @@ Genogram.prototype = {
 		};
 	},
 	"relationLine" : function(obj,arg,group){
-		this.arrowLine = [];
+		this.arrowLine = [],this.arrowText = [];
 		if(!obj.relations.length) return false;
 		var ids = obj.relations.map(function(row){
 			return row.id;
@@ -249,14 +258,17 @@ Genogram.prototype = {
 			}
 		});
 		for(var i = 0; i<res.length; i++){
-			midX =  (res[i].x - obj.x)/2 + obj.x;
-			midY = ((res[i].y+ arg.imgW/2) - (obj.y+arg.imgW/2))/2  + (obj.y+arg.imgW/2);
-			this.arrowLine[i] = this.draw.path("M"+ " " +obj.x + "," + (obj.y+arg.imgW/2) + " " + midX + " " + midY + " " + res[i].x + "," + (res[i].y+ arg.imgW/2)).fill('none').stroke(stroke)
-			this.arrowLine[i].marker('mid', 200, 50, function(add) {
-			   add.text(res[i].RName).font({ size: 15 }).attr({"x":100,"y":0,"dy":0,"text-anchor":"middle","fill":'blue',"style":"cursor: pointer;"})
-			}).marker('end', 13, 13, function(add) {
+			// midX =  (res[i].x + obj.x)/2 - obj.x;
+			// midY = ((res[i].y+ arg.imgW/2) - (obj.y+arg.imgW/2))/2  + (obj.y+arg.imgW/2);
+			var lineW = Math.sqrt((res[i].x - obj.x)*(res[i].x - obj.x) + (res[i].y - obj.y)*(res[i].y - obj.y))/2;
+			// this.arrowLine[i] = this.draw.polyline(obj.x + "," + (obj.y+arg.imgW/2) + " " + midX + "," + midY + " " + res[i].x + "," + (res[i].y+ arg.imgW/2)).fill('none').stroke(stroke)
+			this.arrowLine[i] = this.draw.path("M"+ " " +obj.x + " " + (obj.y+arg.imgW/2)  + " L" + res[i].x + " " + (res[i].y+ arg.imgW/2)).fill('none').stroke(stroke)
+			this.arrowLine[i].marker('end', 13, 13, function(add) {
 				 add.path("M2,2 L2,11 L10,6 L2,2").fill("blue");
 			});
+			this.arrowText[i] = this.draw.text(res[i].RName).font({ size: 15 }).attr({"x":lineW,"y":0,"dy": 0,"dx": 0,"text-anchor":"middle","fill":'blue',"style":"cursor: pointer;"})
+			this.arrowText[i].path("M"+ " " +obj.x + " " + (obj.y+arg.imgW/2) +  " L" + res[i].x + " " + (res[i].y+ arg.imgW/2));
+			
 		}
 		for (i = groups.length - 1; i >= 0; i--) {
 			if(groups[i].type == "g" && groups[i].attr("uid") && groups[i] != group && ids.indexOf(groups[i].attr("uid").slice(0,-1)) == -1){
@@ -493,6 +505,8 @@ Genogram.prototype = {
 		var stage = this.getWH(data,arg.coordX);
 		stage.maxW = stage.maxW < 800 ? 800 : stage.maxW
 		this.draw = SVG(arg.id).size(stage.maxW,stage.minH);
+		// document.getElementById(arg.id).style.width = stage.maxW + "px";
+		// document.getElementById(arg.id).style.height = stage.minH + "px";
 		var createNodes = (function(data){
 			for(var i = 0; i <data.length;i++){
 				for(var j = 0; j < data[i].length; j++){
