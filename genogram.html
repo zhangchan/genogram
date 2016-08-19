@@ -29,1249 +29,1028 @@
 #mask img{ width: 32px; height: 32px;position: relative;top: 50%;margin-top: -16px;}
 
 
-  .box button{  color: #fff;  background-color: #5cb85c;  border-color: #4cae4c;  padding: 2px 3px;  z-index: 33;top:10px;}
-  .box{ width: 800px; height: 900px;overflow: auto;position: relative;padding: 0;margin: 0;}
+  .box button{  color: #fff;  background-color: #5cb85c;  border-color: #4cae4c;  padding: 2px 3px;  z-index: 33;top:10px;cursor: pointer;}
+  /*.box{ width: 800px; height: 900px;overflow: auto;position: relative;padding: 0;margin: 0;}*/
   #cmenu{ width: 180px;height: auto;border: 1px solid #ddd;position: absolute;z-index: 999;left: 0;top: 0;background: #fff;}
   #cmenu ul{padding: 0;margin: 0}
-  #cmenu li{list-style-type: none;width: 100%;height: 30px;line-height: 30px;}
+  #cmenu li{list-style-type: none;width: 100%;height: 30px;line-height: 30px; border-bottom: 1px solid #eee;}
   #cmenu li a{width: 92%;padding-left: 8%; display: block; text-decoration: none;font-size: 14px;color: #000;color: #666;overflow: hidden;text-overflow:ellipsis;white-space: nowrap;}
   #cmenu li a:hover{background: #eee;}
-  #genogram{width: 98.5%;height: 98.5%;border: 4px solid #333;overflow: auto;position: relative;}
+  /*#genogram{width: 98.5%;height: 98.5%;border: 4px solid #333;overflow: auto;position: relative;}*/
 </style>
 
 <script type="text/javascript">
 
 
-var json1 = [
+var json = [
   [
     {
       id:'01',                           //自己的id
       name:'尼牙孜·阿不都拉',            // 名称
-      fid:'',                           // 父亲的id
-      mid:'',                           // 母亲id                        
-      pid:'01p',                           // 配偶id
-      cid:["11","12","13"],             // 后代id
-      bid:["01"],                       // 同级id
       imgurl:"img/01.jpg",                 
       relation:"户主",
+      relations:[],
+       url:[
+        {name :"1111",url :"http://www.baidu.com/"},
+        {name :"1111",url :"http://www.baidu.com/"},
+        {name :"1111",url :"http://www.baidu.com/"}
+        ],
+              usemenu : true,
       record : "橙色_在逃人员，红色_特殊群体"
     }
-    ,{
-      id:'01p',
-      name:'热依汉·热西提',
-      fid:'',
-      mid:'',
-      pid:'01',
-      cid:["11","12","13"],
-      bid:["01p"],
-      imgurl:"img/15.jpg",
-      relation:"妻子",
-      record : ""
-    }
-    ,{
-      id:'01pp',
-      name:'热依汉·热西提',
-      fid:'',
-      mid:'',
-      pid:'01',
-      cid:["11","12","13"],
-      bid:["01pp"],
-      imgurl:"img/15.jpg",
-      relation:"妻子",
-      record : ""
-    }
-    ],
-  [
-    {
-      id:'11',
-      name:'巴哈提古丽',
-     
-      fid:'01',
-      mid:'01p',
-      pid:'11p',
-      cid:["24","25","26"],
-      bid:["11","12","13","14"],
-      imgurl:"img/11.jpg",
-      relation:"儿子",
-      record : ""
-    },{
-      id:'11p',
-      name:'巴哈提古丽',
-      fid:'',
-      mid:'',
-      pid:'11',
-      cid:["24","25","26"],
-      bid:["11p"],
-      imgurl:"img/14.jpg",
-      relation:"儿媳",
-      record : "红色_特殊群体"
-    },{
-      id:'12',
-      name:'加马力·艾买提',
-     
-      fid:'01',
-      mid:'01p',
-      pid:'',
-      cid:["22"],
-      bid:["11","12","13","14"],
-      imgurl:"img/42.jpg",
-      relation:"女儿",
-      record : ""
-    },
+    ]
 
-    {
-      id:'13',
-      name:'艾山·阿不都如',
-     
-      fid:'01',
-      mid:'01p',
-      pid:'',
-      cid:[],
-      bid:["11","12","13","14"],
-      imgurl:"img/12.jpg",
-      relation:"儿子",
-      record : ""
-    },{
-      id:'14',
-      name:'吐拉汗·吐尔迪',
-     
-      fid:'01',
-      mid:'01p',
-      pid:'14p',
-      cid:["22","23"],
-      bid:["11","12","13","14"],
-      imgurl:"img/22.jpg",
-      relation:"儿子",
-      record : ""
-    },{
-      id:'14p',
-      name:'赛比热·如则尼亚孜',
-     
-      fid:'',
-      mid:'',
-      pid:'14',
-      cid:["22","23"],
-      bid:["14p"],
-      imgurl:"img/24.jpg",
-      relation:"儿媳",
-      record : ""
-    }],
-  [
-    {
-      id:'24',
-      name:'努尔顿·依米拉',
-     
-      fid:'11',
-      mid:'11p',
-      pid:'',
-      cid:[],
-      bid:["24","25","26"],
-      imgurl:"img/13.jpg",
-      relation:"孙子",
-      record : ""
-    },{
-      id:'25',
-      name:'努尔顿·依米拉',
-     
-      fid:'11',
-      mid:'11p',
-      pid:'',
-      cid:[],
-      bid:["24","25","26"],
-      imgurl:"img/43.jpg",
-      relation:"孙子",
-      record : ""
-    },{
-      id:'26',
-      name:'努尔顿·依米拉',
-     
-      fid:'11',
-      mid:'11p',
-      pid:'',
-      cid:[],
-      bid:["24","25","26"],
-      imgurl:"img/23.jpg",
-      relation:"孙子",
-      record : ""
-    },{
-      id:'21',
-      name:'努尔顿·依米拉',
-     
-      fid:'12',
-      mid:'',
-      pid:'21p',
-      cid:["31","31","33","34"],
-      bid:["21"],
-      imgurl:"img/21.jpg",
-      relation:"孙子",
-      record : ""
-    },{
-      id:'21p',
-      name:'努尔顿·米拉',
-     
-      fid:'',
-      mid:'',
-      pid:'21',
-      cid:["31","31","33","34"],
-      bid:["21p"],
-      imgurl:"img/24.jpg",
-      relation:"孙媳",
-      record : ""
-    },{
-      id:'22',
-      name:'艾合麦提江',
-     
-      fid:'14',
-      mid:'14p',
-      pid:'',
-      cid:[],
-      bid:["22","23"],
-      imgurl:"img/21.jpg",
-      relation:"孙子",
-      record : ""
-    },{
-      id:'23',
-      name:'阿依乃再?麦麦提',
-     
-      fid:'14',
-      mid:'14p',
-      pid:'',
-      cid:[],
-      bid:["22","23"],
-      imgurl:"img/21.jpg",
-      relation:"孙子",
-      record : ""
-    }],[
-    {
-      id:'31',
-      name:'阿依乃再?麦麦提',
-     
-      fid:'21',
-      mid:'21p',
-      pid:'',
-      cid:[],
-      bid:["31","32","33","34"],
-      imgurl:"img/41.jpg",
-      relation:"曾孙",
-      record : ""
-    },{
-      id:'32',
-      name:'阿依乃再?麦麦提',
-     
-      fid:'21',
-      mid:'21p',
-      pid:'',
-      cid:[],
-      bid:["31","32","33","34"],
-      imgurl:"img/41.jpg",
-      relation:"曾孙",
-      record : ""
-    },{
-      id:'33',
-      name:'阿依乃再?麦麦提',
-     
-      fid:'21',
-      mid:'21p',
-      pid:'',
-      cid:[],
-      bid:["31","32","33","34"],
-      imgurl:"img/41.jpg",
-      relation:"曾孙",
-      record : ""
-    },{
-      id:'34',
-      name:'阿依乃再?麦麦提',
-     
-      fid:'21',
-      mid:'21p',
-      pid:'34p',
-      cid:[],
-      bid:["31","32","33","34"],
-      imgurl:"img/41.jpg",
-      relation:"曾孙",
-      record : ""
-    },{
-      id:'34p',
-      name:'阿依乃再?麦麦提',
-     
-      fid:'',
-      mid:'',
-      pid:'34',
-      cid:[],
-      bid:["34p"],
-      imgurl:"img/41.jpg",
-      relation:"曾孙",
-      record : ""
-    }] 
+  //   ,
+  // [
+  //   {
+  //     id:'11',
+  //     name:'巴哈提古丽',
+  //     imgurl:"img/11.jpg",
+  //     relation:"儿子",
+  //     relations:[],
+  //     record : ""
+  //   },{
+  //     id:'11p',
+  //     name:'巴哈提古丽',
+  //     bid:["11p"],
+  //     imgurl:"img/14.jpg",
+  //     relation:"儿媳",
+  //     relations:[],
+  //     record : "红色_特殊群体"
+  //   },{
+  //     id:'12',
+  //     name:'加马力·艾买提',
+  //     imgurl:"img/42.jpg",
+  //     relation:"女儿",
+  //     relations:[],
+  //     record : ""
+  //   },
+
+  //   {
+  //     id:'13',
+  //     name:'艾山·阿不都如',
+  //     imgurl:"img/12.jpg",
+  //     relation:"儿子",
+  //     relations:[],
+  //     record : ""
+  //   },{
+  //     id:'14',
+  //     name:'吐拉汗·吐尔迪',
+  //     imgurl:"img/22.jpg",
+  //     relation:"儿子",
+  //     relations:[],
+  //     record : ""
+  //   },
+  //   {
+  //     id:'14p',
+  //     name:'赛比热·如则尼亚孜',
+  //     imgurl:"img/24.jpg",
+  //     relation:"儿媳",
+  //     relations:[],
+  //     record : ""
+  //   }],
+  // [
+  //   {
+  //     id:'24',
+  //     name:'努尔顿·依米拉',
+  //     imgurl:"img/13.jpg",
+  //     relation:"孙子",
+  //     relations:[],
+  //     record : ""
+  //   },{
+  //     id:'25',
+  //     name:'努尔顿·依米拉',
+  //     imgurl:"img/43.jpg",
+  //     relation:"孙子",
+  //     relations:[],
+  //     record : ""
+  //   },{
+  //     id:'26',
+  //     name:'努尔顿·依米拉',
+  //     imgurl:"img/23.jpg",
+  //     relation:"孙子",
+  //     relations:[],
+  //     record : ""
+  //   },{
+  //     id:'21',
+  //     name:'努尔顿·依米拉',
+  //     imgurl:"img/21.jpg",
+  //     relation:"孙子",
+  //     relations:[],
+  //     record : ""
+  //   },{
+  //     id:'21p',
+  //     name:'努尔顿·米拉',
+  //     imgurl:"img/24.jpg",
+  //     relation:"孙媳",
+  //     relations:[],
+  //     record : ""
+  //   },{
+  //     id:'22',
+  //     name:'艾合麦提江',
+  //     imgurl:"img/21.jpg",
+  //     relation:"孙子",
+  //     relations:[],
+  //     record : ""
+  //   },
+  //   {
+  //     id:'23',
+  //     name:'阿依乃再?麦麦提',
+  //     imgurl:"img/21.jpg",
+  //     relation:"孙子",
+  //     relations:[],
+  //     record : ""
+  //   }]
   ];
-// var json = [
-//     [
-//         {
-//             "id": "43367819090701234",
-//             "name": "买买提",
-//             url:[
-//               {name :"1111",url :"http://www.baidu.com/"},
-//               {name :"1111",url :"http://www.baidu.com/"},
-//               {name :"1111",url :"http://www.baidu.com/"}
-//               ],
-//             // "fid": "0bd77cd0f19343dd9df08a6f7a90febd",
-//             "fid": "",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [
-//                 "43367819090701235",
-//                 "43367819090701237"
-//             ],
-//             "bid": [
-//                 "43367819090701234"
-//             ],
-//             "usemenu" :true, 
-//             "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701234",
-//             "relation": "户主",
-//             "record": ""
-//         }
-//     ],
-//     [
-//         {
-//             "id": "43367819090701235",
-//             "name": "买一",
-//             url:[{name :"去百度",url :"http://www.baidu.com/"},{name :"去腾讯",url :"http://www.qq.com/"}],
-//             "fid": "43367819090701234",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [
-//                 "43367819090701239",
-//                 "43367819090701238"
-//             ],
-//             "bid": [
-//                 "43367819090701235",
-//                 "43367819090701237"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701235",
-//             "relation": "儿子",
-//             "record": ""
-//         },
-//         {
-//             "id": "43367819090701237",
-//             "name": "买三",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701234",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701235",
-//                 "43367819090701237"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701237",
-//             "relation": "女儿",
-//             "record": ""
-//         }
-//     ],
-//     [
-//         {
-//             "id": "43367819090701238",
-//             "name": "买买五",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701235",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701239",
-//                 "43367819090701238"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701238",
-//             "relation": "儿子",
-//             "record": ""
-//         },
-//         {
-//             "id": "43367819090701239",
-//             "name": "买买四",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701235",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [
-//                 "43367819090701335",
-//                 "43367819090701334",
-//                 "43367819090681335",
-//                 "43367819090721335",
-//                 "43367819090651335",
-//                 "43367819090701336"
-//             ],
-//             "bid": [
-//                 "43367819090701239",
-//                 "43367819090701238"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701239",
-//             "relation": "儿子",
-//             "record": ""
-//         }
-//     ],
-//     [
-//         {
-//             "id": "43367819090651335",
-//             "name": "",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701239",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701335",
-//                 "43367819090701334",
-//                 "43367819090681335",
-//                 "43367819090721335",
-//                 "43367819090651335",
-//                 "43367819090701336"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090651335",
-//             "relation": "表哥",
-//             "record": ""
-//         },
-//         {
-//             "id": "43367819090681335",
-//             "name": "",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701239",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701335",
-//                 "43367819090701334",
-//                 "43367819090681335",
-//                 "43367819090721335",
-//                 "43367819090651335",
-//                 "43367819090701336"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090681335",
-//             "relation": "同行业",
-//             "record": ""
-//         },
-//         {
-//             "id": "43367819090701334",
-//             "name": "热力",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701239",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [
-//                 "43367819090701365",
-//                 "43362222090701365"
-//             ],
-//             "bid": [
-//                 "43367819090701335",
-//                 "43367819090701334",
-//                 "43367819090681335",
-//                 "43367819090721335",
-//                 "43367819090651335",
-//                 "43367819090701336"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701334",
-//             "relation": "户主",
-//             "record": ""
-//         },
-//         {
-//             "id": "43367819090701335",
-//             "name": "",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701239",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701335",
-//                 "43367819090701334",
-//                 "43367819090681335",
-//                 "43367819090721335",
-//                 "43367819090651335",
-//                 "43367819090701336"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701335",
-//             "relation": "儿子",
-//             "record": ""
-//         },
-//         {
-//             "id": "43367819090701336",
-//             "name": "",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701239",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701335",
-//                 "43367819090701334",
-//                 "43367819090681335",
-//                 "43367819090721335",
-//                 "43367819090651335",
-//                 "43367819090701336"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701336",
-//             "relation": "儿子",
-//             "record": ""
-//         },
-//         {
-//             "id": "43367819090721335",
-//             "name": "",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701239",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [
-//                 "43367819090701324"
-//             ],
-//             "bid": [
-//                 "43367819090701335",
-//                 "43367819090701334",
-//                 "43367819090681335",
-//                 "43367819090721335",
-//                 "43367819090651335",
-//                 "43367819090701336"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090721335",
-//             "relation": "邻居",
-//             "record": ""
-//         }
-//     ],
-//     [
-//         {
-//             "id": "43367819090701365",
-//             "name": "sdf",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701334",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701365",
-//                 "43362222090701365",
-//                 "43111111111111165",
-//                 "aaaaaaaaaaaa01365"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701365",
-//             "relation": "女儿",
-//             "record": ""
-//         },
-//         {
-//             "id": "43362222090701365",
-//             "name": "aaaa",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701334",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701365",
-//                 "43362222090701365",
-//                 "43111111111111165",
-//                 "aaaaaaaaaaaa01365"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701365",
-//             "relation": "女儿",
-//             "record": ""
-//         },
-//         {
-//             "id": "43111111111111165",
-//             "name": "sdfs",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701334",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701365",
-//                 "43362222090701365",
-//                 "43111111111111165",
-//                 "aaaaaaaaaaaa01365"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701365",
-//             "relation": "女儿",
-//             "record": ""
-//         },
-//         {
-//             "id": "aaaaaaaaaaaa01365",
-//             "name": "qwes",
-//             "url" :[{
-//               "name":"qqq",
-//               "url" : "1111"
-//             },{
 
-//             }],
-//             "fid": "43367819090701334",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701365",
-//                 "43362222090701365",
-//                 "43111111111111165",
-//                 "aaaaaaaaaaaa01365"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701365",
-//             "relation": "女儿1",
-//             "record": ""
-//         },
-//         {
-//             "id": "43367819090701324",
-//             "name": "",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090721335",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [
-//                 "43367819090701236"
-//             ],
-//             "bid": [
-//                 "43367819090701324"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701324",
-//             "relation": "表妹",
-//             "record": ""
-//         }
-//     ],
-//     [
-//         {
-//             "id": "43367819090701236",
-//             "name": "买二",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701324",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701236"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701236",
-//             "relation": "女儿",
-//             "record": ""
-//         }
-//     ]
-// ];
-// var json2 = [
-//     [
-//         {
-//             "id": "43367819090701234",
-//             "name": "买买提",
-//             url:[
-//               {name :"1111",url :"http://www.baidu.com/"},
-//               {name :"1111",url :"http://www.baidu.com/"},
-//               {name :"1111",url :"http://www.baidu.com/"}
-//               ],
-//             // "fid": "0bd77cd0f19343dd9df08a6f7a90febd",
-//             "fid": "",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [
-//                 "43367819090701235",
-//                 "43367819090701237"
-//             ],
-//             "bid": [
-//                 "43367819090701234"
-//             ],
-//             "usemenu" :true, 
-//             "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701234",
-//             "relation": "户主",
-//             "record": ""
-//         }
-//     ],
-//     [
-//         {
-//             "id": "43367819090701235",
-//             "name": "买一",
-//             url:[{name :"去百度",url :"http://www.baidu.com/"},{name :"去腾讯",url :"http://www.qq.com/"}],
-//             "fid": "43367819090701234",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [
-//                 "43367819090701239",
-//                 "43367819090701238"
-//             ],
-//             "bid": [
-//                 "43367819090701235",
-//                 "43367819090701237"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701235",
-//             "relation": "儿子",
-//             "record": ""
-//         },
-//         {
-//             "id": "43367819090701237",
-//             "name": "买三",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701234",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701235",
-//                 "43367819090701237"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701237",
-//             "relation": "女儿",
-//             "record": ""
-//         }
-//     ],
-//     [
-//         {
-//             "id": "43367819090701238",
-//             "name": "买买五",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701235",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701239",
-//                 "43367819090701238"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701238",
-//             "relation": "儿子",
-//             "record": ""
-//         },
-//         {
-//             "id": "43367819090701239",
-//             "name": "买买四",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701235",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [
-//                 "43367819090701334"
-//             ],
-//             "bid": [
-//                 "43367819090701239",
-//                 "43367819090701238"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701239",
-//             "relation": "儿子",
-//             "record": ""
-//         }
-//     ],
-//     [
-
-//         {
-//             "id": "43367819090701334",
-//             "name": "热力",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701239",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [
-//                 "43367819090701365"
-//             ],
-//             "bid": [
-//                 "43367819090701334"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701334",
-//             "relation": "户主",
-//             "record": ""
-//         }
-//     ],
-//     [
-//         {
-//             "id": "43367819090701365",
-//             "name": "sdf",
-//            url:[{name :"1111",url :"http://www.baidu.com/"}],
-//             "fid": "43367819090701334",
-//             "mid": "",
-//             "pid": "",
-//             "cid": [],
-//             "bid": [
-//                 "43367819090701365"
-//             ],
-//             "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701365",
-//             "relation": "女儿",
-//             "record": ""
-//         }
-//     ]
-// ];
-
-
-
-
-json = [
-  [
-    {
-      "usemenu": false,
-      "id": "654123198311230024",
-      "name": "拉比彦·太来提",
-      "fid": "0513fb41709a4180ac5b78e1bb082f2e",
-      "mid": "",
-      "pid": "41282519570822",
-      "cid": [
-        "413026197503126612"
-      ],
-      "bid": [
-        "654123198311230024"
-      ],
-      "relations" : [{
-        "RName" : "亲戚关系",
-        "id" : "412825195708084513"
-      },{
-        "RName" : "父子关系",
-        "id" : "41282519570822"
-      },{
-        "RName" : "父子关系",
-        "id" : "413026197503126612"
-      },{
-        "RName" : "父子关系",
-        "id" : "653125197103083012"
-      },{
-        "RName" : "父子关系",
-        "id" : "622427198801156845"
-      }],
-      "imgurl": "img/11.jpg",
-      "relation": "户主",
-      "record": "橙色_特殊群体"
-    },
-
-    {
-      "id": "41282519570822",
-      "name": "刘虎全",
-      "record": "",
-      "relation": "配偶",
-      "bid": ["41282519570822"],
-      "relations" : [{
-        "RName" : "亲戚关系",
-        "id" : "622427198801156845"
-      }],
-      "imgurl": "img/02.jpg",
-      "fid": "",
-      "mid": "",
-      "pid": "654123198311230024",
-      "cid": [
-        "413026197503126612"
-      ]
-    },
-    {
-      "id": "412825195708084513",
-      "name": "刘虎全",
-      "record": "",
-      "relation": "配偶",
-      "bid": ["412825195708084513"],
-      "relations" : [{
-        "RName" : "父子关系亲亲",
-        "id" : "41282519570822"
-      },{
-        "RName" : "父子关系",
-        "id" : "653125197103083012"
-      }],
-      "imgurl": "img/01.jpg",
-      "fid": "",
-      "mid": "",
-      "pid": "654123198311230024",
-      "cid": [
-        "413026197503126612"
-      ]
-    }
-    
-  ],
-  [
-    {
-      "usemenu": false,
-      "id": "413026197503126612",
-      "name": "张月军",
-      "fid": "654123198311230024",
-      "mid": "41282519570822",
-      "pid": "",
-      "cid": [
-        "653125197103083012"
-      ],
-      "bid": [
-        "413026197503126612"
-      ],
-      "relations" : [{
-        "RName" : "父子关系",
-        "id" : "654123198311230024"
-      },{
-        "RName" : "还是朋友",
-        "id" : "41282519570822"
-      },{
-        "RName" : "曾经是朋友",
-        "id" : "622427198801156845"
-      }],
-      "imgurl": "img/12.jpg",
-      "relation": "户主",
-      "record": "橙色_重点人员"
-    }
-  ],
-  [
-    {
-      "usemenu": false,
-      "id": "653125197103083012",
-      "name": "马木提·热合曼",
-      "fid": "413026197503126612",
-      "mid": "",
-      "pid": "622427198801156845",
-      "cid": [],
-      "bid": [
-        "653125197103083012"
-      ],
-      "relations" : [],
-      "imgurl": "img/13.jpg",
-      "relation": "儿子",
-      "record": ""
-    },
-    {
-      "id": "622427198801156845",
-      "name": "朱喜英",
-      "record": "",
-      "relation": "配偶",
-      "bid": ["622427198801156845"],
-      "relations" : [{
-        "RName" : "可能不是朋友",
-        "id" : "654123198311230024"
-      },{
-        "RName" : "可能是朋友",
-        "id" : "41282519570822"
-      },{
-        "RName" : "情侣",
-        "id" : "412825195708084513"
-      }],
-      "imgurl": "img/21.jpg",
-      "fid": "",
-      "mid": "",
-      "pid": "653125197103083012",
-      "cid": []
-    }
-  ]
-];
-
-
-
-var json = [[{
-    "url": "",
-    "usemenu": false,
-    "relations": [],
-    "id": "410481198911089011",
-    "name": "王亦众",
-    "fid": "ac02837c81464133b9e08e030e6c985d",
-    "mid": "",
-    "pid": "",
-    "cid": ["652925197409180715"],
-    "bid": ["410481198911089011"],
-    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=410481198911089011",
-    "relation": "师傅",
-    "record": "红色_被判刑人员"
-}], [{
-    "url": [{
-        "name": "塔衣尔·依米提的案件关系图",
-        "url": "http://127.0.0.1:8081/ITAP/front/ZP_SWJP.jsp?JZBH=c42af6feae864f73bb33cb1260d68eb4&&ZPLX=涉案人员案件关系图&&LRR=hulingli&&LRSJ=2016-07-17 17:38:34"
-    }],
-    "usemenu": true,
-    "relations": [{
-        "RName": "父子关系",
-        "id": "642222196701010816"
-    },
-    {
-        "RName": "母子关系",
-        "id": "65210119761008224X"
-    }],
-    "id": "652925197409180715",
-    "name": "卡勒",
-    "fid": "410481198911089011",
-    "mid": "",
-    "pid": "",
-    "cid": ["642222196701010816", "65210119761008224X"],
-    "bid": ["652925197409180715"],
-    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=652925197409180715",
-    "relation": "弟子",
-    "record": "红色_在逃人员"
-}], [{
-    "url": "",
-    "usemenu": false,
-    "relations": [],
-    "id": "642222196701010816",
-    "name": "周江锋",
-    "fid": "652925197409180715",
-    "mid": "",
-    "pid": "",
-    "cid": [],
-    "bid": ["642222196701010816", "65210119761008224X"],
-    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=642222196701010816",
-    "relation": "弟子",
-    "record": ""
-},
-{
-    "url": "",
-    "usemenu": false,
-    "relations": [],
-    "id": "65210119761008224X",
-    "name": "热比古丽·买苏木",
-    "fid": "652925197409180715",
-    "mid": "",
-    "pid": "",
-    "cid": [],
-    "bid": ["642222196701010816", "65210119761008224X"],
-    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=65210119761008224X",
-    "relation": "弟子",
-    "record": ""
-}]];
-
-json = [
+var json = [
     [
         {
-            "url": "",
-            "usemenu": false,
-            "relations": [],
-            "id": "610523198910036187",
-            "name": "杜玉娇",
-            "fid": "37c8eb3b017f4c5ca77bbd4885b293bd",
+            "id": "43367819090701234",
+            "name": "买买提",
+            url:[
+              {name :"1111",url :"http://www.baidu.com/"},
+              {name :"1111",url :"http://www.baidu.com/"},
+              {name :"1111",url :"http://www.baidu.com/"}
+              ],
+            // "fid": "0bd77cd0f19343dd9df08a6f7a90febd",
+            "fid": "",
             "mid": "",
             "pid": "",
             "cid": [
-                "432522197209160312",
-                "431500197702178758",
-                "642222198710154415"
+                "43367819090701235",
+                "43367819090701237"
             ],
             "bid": [
-                "610523198910036187"
+                "43367819090701234"
             ],
-            "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=610523198910036187",
-            "relation": "师傅",
-            "record": "红色_被判刑人员"
-        }
-    ],
-    [
-        {
-            "url": "",
-            "usemenu": false,
-            "relations": [],
-            "id": "431500197702178758",
-            "name": "罗文全",
-            "fid": "610523198910036187",
-            "mid": "",
-            "pid": "",
-            "cid": [
-                "342225198510137432",
-                "51102719730822619X"
-            ],
-            "bid": [
-                "432522197209160312",
-                "431500197702178758",
-                "642222198710154415"
-            ],
-            "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=431500197702178758",
-            "relation": "弟子",
-            "record": "橙色_特殊群体"
-        },
-        {
-            "url": "",
-            "usemenu": false,
-            "relations": [],
-            "id": "432522197209160312",
-            "name": "郑立场",
-            "fid": "610523198910036187",
-            "mid": "",
-            "pid": "",
-            "cid": [
-                "510222197011153231"
-            ],
-            "bid": [
-                "432522197209160312",
-                "431500197702178758",
-                "642222198710154415"
-            ],
-            "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=432522197209160312",
-            "relation": "弟子",
-            "record": ""
-        },
-        {
-            "url": "",
-            "usemenu": false,
-            "relations": [],
-            "id": "642222198710154415",
-            "name": "徐明生",
-            "fid": "610523198910036187",
-            "mid": "",
-            "pid": "",
-            "cid": [],
-            "bid": [
-                "432522197209160312",
-                "431500197702178758",
-                "642222198710154415"
-            ],
-            "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=642222198710154415",
-            "relation": "弟子",
+            "usemenu" :false,
+            // "relations":[],
+            "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701234",
+            "relation": "户主",
             "record": ""
         }
     ],
     [
         {
-            "url": "",
-            "usemenu": false,
-            "relations": [],
-            "id": "342225198510137432",
-            "name": "卿海",
-            "fid": "431500197702178758",
+            "id": "43367819090701235",
+            "name": "买一",
+            url:[{name :"去百度",url :"http://www.baidu.com/"},{name :"去腾讯",url :"http://www.qq.com/"}],
+            "fid": "43367819090701234",
             "mid": "",
             "pid": "",
-            "cid": [],
-            "bid": [
-                "342225198510137432",
-                "51102719730822619X"
+            "cid": [
+                "43367819090701239",
+                "43367819090701238"
             ],
-            "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=342225198510137432",
-            "relation": "弟子",
-            "record": "红色_被判刑人员"
-        },
-        {
-            "url": "",
-            "usemenu": false,
-            "relations": [],
-            "id": "51102719730822619X",
-            "name": "卿明甫",
-            "fid": "431500197702178758",
-            "mid": "",
-            "pid": "",
-            "cid": [],
             "bid": [
-                "342225198510137432",
-                "51102719730822619X"
+                "43367819090701235",
+                "43367819090701237"
             ],
-            "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=51102719730822619X",
-            "relation": "弟子",
+            // "relations":[],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701235",
+            "relation": "儿子",
             "record": ""
         },
         {
-            "url": "",
-            "usemenu": false,
-            "relations": [
-                {
-                    "RName": "兄弟关系",
-                    "id": "432522197209160312"
-                },
-                {
-                    "RName": "父子关系",
-                    "id": "642222198710154415"
-                },
-                {
-                    "RName": "亲戚关系",
-                    "id": "342225198510137432"
-                }
-            ],
-            "id": "510222197011153231",
-            "name": "刘兴强",
-            "fid": "432522197209160312",
+            "id": "43367819090701237",
+            "name": "买三",
+           url:[{name :"1111",url :"http://www.baidu.com/"},{name :"1111",url :"http://www.baidu.com/"},{name :"1111",url :"http://www.baidu.com/"},{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701234",
             "mid": "",
             "pid": "",
             "cid": [],
+            "relations":[],
             "bid": [
-                "510222197011153231"
+                "43367819090701235",
+                "43367819090701237"
             ],
-            "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=510222197011153231",
-            "relation": "弟子",
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701237",
+            "relation": "女儿",
+            "record": ""
+        }
+    ],
+    [
+        {
+            "id": "43367819090701238",
+            "name": "买买五",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701235",
+            "mid": "",
+            "pid": "",
+            "cid": [],
+            "relations":[],
+            "bid": [
+                "43367819090701239",
+                "43367819090701238"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701238",
+            "relation": "儿子",
+            "record": ""
+        },
+        {
+            "id": "43367819090701239",
+            "name": "买买四",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701235",
+            "mid": "",
+            "pid": "",
+            "cid": [
+                "43367819090701335",
+                "43367819090701334",
+                "43367819090681335",
+                "43367819090721335",
+                "43367819090651335",
+                "43367819090701336"
+            ],
+            "relations":[],
+            "bid": [
+                "43367819090701239",
+                "43367819090701238"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701239",
+            "relation": "儿子",
+            "record": ""
+        }
+    ],
+    [
+        {
+            "id": "43367819090651335",
+            "name": "",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701239",
+            "mid": "",
+            "pid": "",
+            "cid": [],
+            "relations":[],
+            "bid": [
+                "43367819090701335",
+                "43367819090701334",
+                "43367819090681335",
+                "43367819090721335",
+                "43367819090651335",
+                "43367819090701336"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090651335",
+            "relation": "表哥",
+            "record": ""
+        },
+        {
+            "id": "43367819090681335",
+            "name": "",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701239",
+            "mid": "",
+            "pid": "",
+            "cid": [],
+            "relations":[],
+            "bid": [
+                "43367819090701335",
+                "43367819090701334",
+                "43367819090681335",
+                "43367819090721335",
+                "43367819090651335",
+                "43367819090701336"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090681335",
+            "relation": "同行业",
+            "record": ""
+        },
+        {
+            "id": "43367819090701334",
+            "name": "热力",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701239",
+            "mid": "",
+            "pid": "",
+            "relations":[],
+            "cid": [
+                "43367819090701365",
+                "43362222090701365"
+            ],
+            "bid": [
+                "43367819090701335",
+                "43367819090701334",
+                "43367819090681335",
+                "43367819090721335",
+                "43367819090651335",
+                "43367819090701336"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701334",
+            "relation": "户主",
+            "record": ""
+        },
+        {
+            "id": "43367819090701335",
+            "name": "",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701239",
+            "mid": "",
+            "pid": "",
+            "relations":[],
+            "cid": [],
+            "bid": [
+                "43367819090701335",
+                "43367819090701334",
+                "43367819090681335",
+                "43367819090721335",
+                "43367819090651335",
+                "43367819090701336"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701335",
+            "relation": "儿子",
+            "record": ""
+        },
+        {
+            "id": "43367819090701336",
+            "name": "",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701239",
+            "mid": "",
+            "pid": "",
+            "cid": [],
+            "relations":[],
+            "bid": [
+                "43367819090701335",
+                "43367819090701334",
+                "43367819090681335",
+                "43367819090721335",
+                "43367819090651335",
+                "43367819090701336"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701336",
+            "relation": "儿子",
+            "record": ""
+        },
+        {
+            "id": "43367819090721335",
+            "name": "",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701239",
+            "mid": "",
+            "pid": "",
+            "cid": [
+                "43367819090701324"
+            ],
+            "relations":[],
+            "bid": [
+                "43367819090701335",
+                "43367819090701334",
+                "43367819090681335",
+                "43367819090721335",
+                "43367819090651335",
+                "43367819090701336"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090721335",
+            "relation": "邻居",
+            "record": ""
+        }
+    ],
+    [
+        {
+            "id": "43367819090701365",
+            "name": "sdf",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701334",
+            "mid": "",
+            "pid": "",
+            "cid": [],
+            "relations":[],
+            "bid": [
+                "43367819090701365",
+                "43362222090701365",
+                "43111111111111165",
+                "aaaaaaaaaaaa01365"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701365",
+            "relation": "女儿",
+            "record": ""
+        },
+        {
+            "id": "43362222090701365",
+            "name": "aaaa",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701334",
+            "mid": "",
+            "pid": "",
+            "cid": [],
+            "relations":[],
+            "bid": [
+                "43367819090701365",
+                "43362222090701365",
+                "43111111111111165",
+                "aaaaaaaaaaaa01365"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701365",
+            "relation": "女儿",
+            "record": ""
+        },
+        {
+            "id": "43111111111111165",
+            "name": "sdfs",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701334",
+            "mid": "",
+            "pid": "",
+            "cid": [],
+            "relations":[],
+            "bid": [
+                "43367819090701365",
+                "43362222090701365",
+                "43111111111111165",
+                "aaaaaaaaaaaa01365"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701365",
+            "relation": "女儿",
+            "record": ""
+        },
+        {
+            "id": "aaaaaaaaaaaa01365",
+            "name": "qwes",
+            "url" :[{
+              "name":"qqq",
+              "url" : "1111"
+            },{
+
+            }],
+            "fid": "43367819090701334",
+            "mid": "",
+            "pid": "",
+            "cid": [],
+            "relations":[],
+            "bid": [
+                "43367819090701365",
+                "43362222090701365",
+                "43111111111111165",
+                "aaaaaaaaaaaa01365"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701365",
+            "relation": "女儿1",
+            "record": ""
+        },
+        {
+            "id": "43367819090701324",
+            "name": "",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090721335",
+            "mid": "",
+            "pid": "",
+            "cid": [
+                "43367819090701236"
+            ],
+            "relations":[],
+            "bid": [
+                "43367819090701324"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701324",
+            "relation": "表妹",
+            "record": ""
+        }
+    ],
+    [
+        {
+            "id": "43367819090701236",
+            "name": "买二",
+           url:[{name :"1111",url :"http://www.baidu.com/"}],
+            "fid": "43367819090701324",
+            "mid": "",
+            "pid": "",
+            "cid": [],
+            "relations":[],
+            "bid": [
+                "43367819090701236"
+            ],
+            "usemenu" :true, "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=43367819090701236",
+            "relation": "女儿",
             "record": ""
         }
     ]
-]
-
-
-json1 = [[{
+];
+var json = [[{
+    "url": [],
     "usemenu": false,
-    "id": "65313019860910201X",
-    "name": "依马木?玉山",
-    "fid": "67e13f05ba3d458696c009fc7f918bdf",
+    "relations": [],
+    "id": "653122197104080092",
+    "name": "玉荪·艾力",
+    "fid": "0baa9d823621476dbf96a560b1aeaed7",
     "mid": "",
     "pid": "",
-    relations:[],
-    "cid": ["653221198612201114", "653225198707150036", "65310119760420044X"],
-    "bid": ["65313019860910201X"],
-    "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=65313019860910201X",
-    "relation": "头目",
-    "record": "橙色_涉稳不放心人员"
+    "cid": ["653221198702021256", "652801197804013136", "652801197602173131"],
+    "bid": ["653122197104080092"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653122197104080092",
+    "relation": "师傅",
+    "record": ""
 }], [{
+    "url": [],
     "usemenu": false,
-    "id": "65310119760420044X",
-    "name": "徐亚娟",
-    "fid": "65313019860910201X",
+    "relations": [],
+    "id": "652801197602173131",
+    "name": "阿布力米提·吾甫尔",
+    "fid": "653122197104080092",
     "mid": "",
     "pid": "",
-        relations:[],
-    "cid": [],
-    "bid": ["653221198612201114", "653225198707150036", "65310119760420044X"],
-    "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=65310119760420044X",
-    "relation": "头目",
-    "record": "橙色_重点人员"
-},
-{
-    "usemenu": false,
-    "id": "653221198612201114",
-    "name": "吾麦尔·麦合木提",
-    "fid": "65313019860910201X",
-    "mid": "",
-    "pid": "",
-        relations:[],
-    "cid": ["653125198705090011"],
-    "bid": ["653221198612201114", "653225198707150036", "65310119760420044X"],
-    "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=653221198612201114",
-    "relation": "骨干",
+    "cid": ["652801201106193116", "652801198602233127", "652801197602173132"],
+    "bid": ["653221198702021256", "652801197804013136", "652801197602173131"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801197602173131",
+    "relation": "弟子",
     "record": ""
 },
 {
+    "url": [],
     "usemenu": false,
-    "id": "653225198707150036",
-    "name": "麦麦提艾力·麦麦提敏",
-    "fid": "65313019860910201X",
+    "relations": [],
+    "id": "652801197804013136",
+    "name": "买买提·吾甫尔",
+    "fid": "653122197104080092",
     "mid": "",
     "pid": "",
-        relations:[],
-    "cid": ["653122199208123439"],
-    "bid": ["653221198612201114", "653225198707150036", "65310119760420044X"],
-    "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=653225198707150036",
-    "relation": "头目",
-    "record": "橙色_涉稳不放心人员"
-}], [{
-    "usemenu": false,
-    "id": "653125198705090011",
-    "name": "hh",
-    "fid": "653221198612201114",
-    "mid": "",
-    "pid": "",
-        relations:[],
     "cid": [],
-    "bid": ["653125198705090011"],
-    "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=653125198705090011",
-    "relation": "骨干",
+    "bid": ["653221198702021256", "652801197804013136", "652801197602173131"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801197804013136",
+    "relation": "弟子",
     "record": ""
 },
 {
+    "url": [],
     "usemenu": false,
-    "id": "653122199208123439",
-    "name": "dd",
-    "fid": "653225198707150036",
+    "relations": [],
+    "id": "653221198702021256",
+    "name": "艾孜布拉·艾则孜",
+    "fid": "653122197104080092",
     "mid": "",
-        relations:[],
     "pid": "",
-    "cid": ["652122198911100559"],
-    "bid": ["653122199208123439"],
-    "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=653122199208123439",
-    "relation": "头目",
+    "cid": ["652801195510153142", "652801194706013112"],
+    "bid": ["653221198702021256", "652801197804013136", "652801197602173131"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653221198702021256",
+    "relation": "弟子",
     "record": ""
 }], [{
+    "url": [],
     "usemenu": false,
-    "id": "652122198911100559",
-    "name": "ee",
-    "fid": "653122199208123439",
+    "relations": [],
+    "id": "652801197602173132",
+    "name": "阿布力米提·吾甫尔",
+    "fid": "652801197602173131",
     "mid": "",
     "pid": "",
-        relations:[],
     "cid": [],
-    "bid": ["652122198911100559"],
-    "imgurl": "http://192.168.0.191:8085/ITAP/servlet/back/TPckS?type=cxXP2&ZJHM=652122198911100559",
-    "relation": "头目",
+    "bid": ["652801201106193116", "652801198602233127", "652801197602173132"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801197602173132",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801198602233127",
+    "name": "古力坚乃提·吾甫尔",
+    "fid": "652801197602173131",
+    "mid": "",
+    "pid": "",
+    "cid": ["65312919901003083X", "653129196810050827", "653129196312200837", "653129200712150882"],
+    "bid": ["652801201106193116", "652801198602233127", "652801197602173132"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801198602233127",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801201106193116",
+    "name": "阿不都萨拉木·依布拉音",
+    "fid": "652801197602173131",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["652801201106193116", "652801198602233127", "652801197602173132"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801201106193116",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801194706013112",
+    "name": "吾甫尔·吐尔弟",
+    "fid": "653221198702021256",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["652801195510153142", "652801194706013112"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801194706013112",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801195510153142",
+    "name": "阿瓦汗·木沙",
+    "fid": "653221198702021256",
+    "mid": "",
+    "pid": "",
+    "cid": ["653129198804030845", "653129199102070820", "653129198911050833"],
+    "bid": ["652801195510153142", "652801194706013112"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801195510153142",
+    "relation": "弟子",
+    "record": ""
+}], [{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653129198804030845",
+    "name": "阿尔孜古力·威力",
+    "fid": "652801195510153142",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["653129198804030845", "653129199102070820", "653129198911050833"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653129198804030845",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653129198911050833",
+    "name": "玉苏批·威力",
+    "fid": "652801195510153142",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["653129198804030845", "653129199102070820", "653129198911050833"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653129198911050833",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653129199102070820",
+    "name": "开力比努尔·威力",
+    "fid": "652801195510153142",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["653129198804030845", "653129199102070820", "653129198911050833"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653129199102070820",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653129196312200837",
+    "name": "威力·如则",
+    "fid": "652801198602233127",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["65312919901003083X", "653129196810050827", "653129196312200837", "653129200712150882"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653129196312200837",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653129196810050827",
+    "name": "海尔古力·图迪",
+    "fid": "652801198602233127",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["65312919901003083X", "653129196810050827", "653129196312200837", "653129200712150882"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653129196810050827",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "65312919901003083X",
+    "name": "艾孜提艾力·威力",
+    "fid": "652801198602233127",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["65312919901003083X", "653129196810050827", "653129196312200837", "653129200712150882"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=65312919901003083X",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653129200712150882",
+    "name": "布麦尔亚木·威力",
+    "fid": "652801198602233127",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["65312919901003083X", "653129196810050827", "653129196312200837", "653129200712150882"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653129200712150882",
+    "relation": "弟子",
     "record": ""
 }]]
 
 
-
+var json = [[{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653122197104080092",
+    "name": "玉荪·艾力",
+    "fid": "b45fb109c8fe4f31b23f392f922e35bf",
+    "mid": "",
+    "pid": "",
+    "cid": ["652801197602173131", "653221198702021256", "652801197804013136"],
+    "bid": ["653122197104080092"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653122197104080092",
+    "relation": "师傅",
+    "record": ""
+}], [{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801197602173131",
+    "name": "阿布力米提·吾甫尔",
+    "fid": "653122197104080092",
+    "mid": "",
+    "pid": "",
+    "cid": ["652801198602233127", "653124197109013318", "652801197602173132", "652801201106193116"],
+    "bid": ["652801197602173131", "653221198702021256", "652801197804013136"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801197602173131",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801197804013136",
+    "name": "买买提·吾甫尔",
+    "fid": "653122197104080092",
+    "mid": "",
+    "pid": "",
+    "cid": ["413026197503126612", "652801194706013112"],
+    "bid": ["652801197602173131", "653221198702021256", "652801197804013136"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801197804013136",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653221198702021256",
+    "name": "艾孜布拉·艾则孜",
+    "fid": "653122197104080092",
+    "mid": "",
+    "pid": "",
+    "cid": ["652801195510153142"],
+    "bid": ["652801197602173131", "653221198702021256", "652801197804013136"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653221198702021256",
+    "relation": "弟子",
+    "record": ""
+}], [{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801197602173132",
+    "name": "阿布力米提·吾甫尔",
+    "fid": "652801197602173131",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["652801198602233127", "653124197109013318", "652801197602173132", "652801201106193116"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801197602173132",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801198602233127",
+    "name": "古力坚乃提·吾甫尔",
+    "fid": "652801197602173131",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["652801198602233127", "653124197109013318", "652801197602173132", "652801201106193116"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801198602233127",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801201106193116",
+    "name": "阿不都萨拉木·依布拉音",
+    "fid": "652801197602173131",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["652801198602233127", "653124197109013318", "652801197602173132", "652801201106193116"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801201106193116",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653124197109013318",
+    "name": "努尔买买提·打吾提",
+    "fid": "652801197602173131",
+    "mid": "",
+    "pid": "",
+    "cid": ["41052219661117523X", "653022198211280814", "653129196307050133"],
+    "bid": ["652801198602233127", "653124197109013318", "652801197602173132", "652801201106193116"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653124197109013318",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "413026197503126612",
+    "name": "张月军",
+    "fid": "652801197804013136",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["413026197503126612", "652801194706013112"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=413026197503126612",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801194706013112",
+    "name": "啥打飞的",
+    "fid": "652801197804013136",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["413026197503126612", "652801194706013112"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801194706013112",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652801195510153142",
+    "name": "阿瓦汗·木沙",
+    "fid": "653221198702021256",
+    "mid": "",
+    "pid": "",
+    "cid": ["653129198911050833", "653129199102070820", "653129198804030845"],
+    "bid": ["652801195510153142"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652801195510153142",
+    "relation": "弟子",
+    "record": ""
+}], [{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "41052219661117523X",
+    "name": "赶紧给",
+    "fid": "653124197109013318",
+    "mid": "",
+    "pid": "",
+    "cid": ["340322198907016828"],
+    "bid": ["41052219661117523X", "653022198211280814", "653129196307050133"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=41052219661117523X",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653022198211280814",
+    "name": "是电风扇的",
+    "fid": "653124197109013318",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["41052219661117523X", "653022198211280814", "653129196307050133"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653022198211280814",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653129196307050133",
+    "name": "根据官方",
+    "fid": "653124197109013318",
+    "mid": "",
+    "pid": "",
+    "cid": ["652926197401203210"],
+    "bid": ["41052219661117523X", "653022198211280814", "653129196307050133"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653129196307050133",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653129198804030845",
+    "name": "阿尔孜古力·威力",
+    "fid": "652801195510153142",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["653129198911050833", "653129199102070820", "653129198804030845"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653129198804030845",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653129198911050833",
+    "name": "玉苏批·威力",
+    "fid": "652801195510153142",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["653129198911050833", "653129199102070820", "653129198804030845"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653129198911050833",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "653129199102070820",
+    "name": "开力比努尔·威力",
+    "fid": "652801195510153142",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["653129198911050833", "653129199102070820", "653129198804030845"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=653129199102070820",
+    "relation": "弟子",
+    "record": ""
+}], [{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "340322198907016828",
+    "name": "周思军",
+    "fid": "41052219661117523X",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["340322198907016828"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=340322198907016828",
+    "relation": "弟子",
+    "record": ""
+},
+{
+    "url": [],
+    "usemenu": false,
+    "relations": [],
+    "id": "652926197401203210",
+    "name": "返回 ",
+    "fid": "653129196307050133",
+    "mid": "",
+    "pid": "",
+    "cid": [],
+    "bid": ["652926197401203210"],
+    "imgurl": "http://127.0.0.1:8081/ITAP/servlet/back/TPckS?type=cxXP&ZJHM=652926197401203210",
+    "relation": "弟子",
+    "record": ""
+}]];
 
 var opt = {
   data : json,
   id : "genogram",
+  type : "genogram", //genogram, tree
   coordX : 210,   //节点x轴间距
   coordY : 310,   //节点y轴间距
   selfH : 235,    //节点高度
@@ -1279,9 +1058,11 @@ var opt = {
   saveAsPng : true,
   currentId:"1111",
   pngNameRule : "name.png",
-  useVtoH : true,
+  useVtoH : true,            //横竖排切换
   useViewRelationBtn : true, //显示按关系查看按钮
   showRelation : true, //使用关系连线
+  showMenuRecords : true, //右键显示全息档案
+  iconUrl : "img/an.png", //右上角icon
   offsetTop : 40,
   offsetLeft : 25,
   desc : "111dde家谱",   //家谱说明
@@ -1289,21 +1070,27 @@ var opt = {
     name : "采集人采集人", //采集人
     time : "2016-6-30 15:38:40"
   },
-  listener : function(obj,msg){
+  listener : function(obj,msg){//点击事件
 
     // obj 点击对象, msg 对象携带的数据
     // alert(1)
   },
-  menuTo :function(obj,id){
+  menuTo :function(data,obj){ //全息档案事件
+    
+    console.log(data,obj)
+
+
     // console.log(obj.innerText,id)
-    // location.href="http://www.baidu.com/";
+    location.href="http://www.baidu.com/";
   },
   relationTo :function(){
     alert(1)
   }
 };
 var geo = new Genogram(opt);
-geo.changeDesc("aaa")
+// geo.changeDesc("aaa")
+// geo.show("mask")
+// geo.hide("mask")
 </script> 
      
 </body>  

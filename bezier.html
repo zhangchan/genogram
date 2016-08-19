@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>  
+  <head>  
+        <meta charset="utf-8">  
+        <title>bezier</title>  
+
+  </head> 
+<body>
+ 	<script type="text/javascript" src="js/svg.min.js"></script>
+<div id="bezier"></div>
+
+<script type="text/javascript">
+var posA = {
+	x : 100,
+	y : 100
+}
+var posB = {
+	x : 300,
+	y : 300
+}
+var bezier = document.getElementById('bezier');
+var tempX = (posB.x - posA.x)/3;
+var tempY = (posB.y - posA.y)/3;
+var draw = SVG("bezier").size(800,800)
+console.log(tempX,tempY)
+// draw.path('M' + posA.x + " " + posA.y + " q " + (posA.x+tempX) + " " + (posA.y+tempY) + " q " + posB.x + " " posB.y).fill('none').stroke({ width: 2,color: 'black'});
+draw.path("M " + " " + posA.x + ' ' + posA.y + ' c ' + (posA.x+tempX) + ' ' + (posA.y+tempY) + '   ' + (posA.x+2*tempX) + ' ' + (posA.y+2*tempY) + '  ' + posB.x + ' '  + posB.y).fill('none').stroke({ width: 2,color: 'black'});
+
+</script> 
+     
+</body>  
+</html> 
