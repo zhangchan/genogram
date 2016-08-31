@@ -144,6 +144,7 @@ Genogram.prototype = {
 						for(var m = 0;m<data.length; m++){
 							for(var n =0;n<data[m].length; n++){
 								if(data[i][j].fid == data[m][n].id){
+
 									tick+=1;
 									if(tick == data[i][j].bid.length){
 										tick=0;
@@ -154,7 +155,29 @@ Genogram.prototype = {
 												data[m][b].x = data[m][n].x+data[m][b].x-oldc;
 											}
 										}else{
-											var s =j-data[i][j].bid.length+1;
+											var bpNum = (function(){
+												function getobj(id){
+													for (var i = 0; i < data.length; i++) {
+														for (var j = 0; j < data[i].length; j++) {
+															if(data[i][j].id == id){
+																return data[i][j];
+															}
+														};
+													};
+												}
+												var bid = data[i][j].bid;
+												var num = 0;
+												for (var m = 0; m < bid.length; m++) {
+													if(getobj(bid[m]).pid !=""){
+														num++;
+													}
+												};
+												if(data[i][j].pid !="" && num > 0){
+													num--;
+												}
+												return num;
+											})(); 
+											var s =j-(data[i][j].bid.length-1) -bpNum;
 											var oldh = (data[i][j].x - data[i][s].x)/2;
 											var olsf = data[i][s].x;
 											var movep = data[m][n].x + (data[m][n].pid ? coordX/2 : 0) - oldh-data[i][s].x ;
@@ -167,7 +190,6 @@ Genogram.prototype = {
 
 								}
 								if(data[m][n].cid.length == 1){
-									console.log(data[m][n]);
 									oneChild(m,n);
 								}
 							}
@@ -238,13 +260,18 @@ Genogram.prototype = {
 			}
 		}else if(type == "tree"){
 			if(data.length == 1) return false;
-			this.draw.polyline(data[0][0].x + "," + (data[0][0].y+selfH) + " " + data[0][0].x + "," + (data[0][0].y+selfH+2*lineH)).fill('none').stroke(stroke);
-			for (var i = 1; i <data.length-1; i++) {
+			// this.draw.polyline(data[0][0].x + "," + (data[0][0].y+selfH) + " " + data[0][0].x + "," + (data[0][0].y+selfH+2*lineH)).fill('none').stroke(stroke);
+			for (var i = 0; i <data.length-1; i++) {
 				for(var j = 0; j <data[i].length; j++){
 					this.draw.polyline(data[i][j].x + "," + (data[i][j].y+selfH) + " " + data[i][j].x + "," + (data[i][j].y+selfH+lineH)).fill('none').stroke(stroke);
-					this.draw.polyline(data[i][j].x + "," + (data[i][j].y) + " " + data[i][j].x + "," + (data[i][j].y-lineH)).fill('none').stroke(stroke);
+					if(i!=0){
+						this.draw.polyline(data[i][j].x + "," + (data[i][j].y) + " " + data[i][j].x + "," + (data[i][j].y-lineH)).fill('none').stroke(stroke);
+					}
+				
 				}
-				this.draw.polyline(data[i][0].x + "," + (data[i][0].y-lineH) + " " + data[i][data[i].length-1].x + "," + (data[i][data[i].length-1].y-lineH)).fill('none').stroke(stroke);
+				if(i!=0){
+					this.draw.polyline(data[i][0].x + "," + (data[i][0].y-lineH) + " " + data[i][data[i].length-1].x + "," + (data[i][data[i].length-1].y-lineH)).fill('none').stroke(stroke);
+				}
 				this.draw.polyline(data[i][0].x + "," + (data[i][0].y+selfH+lineH) + " " + data[i][data[i].length-1].x + "," + (data[i][data[i].length-1].y+lineH+selfH)).fill('none').stroke(stroke);
 				var midX = (data[i][data[i].length-1].x - data[i][0].x)/2 + data[i][0].x;
 				this.draw.polyline(midX + "," + (data[i][0].y+ selfH+lineH) + " " + midX+ "," + (data[i][data[i].length-1].y+selfH+2*lineH)).fill('none').stroke(stroke);
@@ -294,13 +321,18 @@ Genogram.prototype = {
 				}
 			}
 		}else if(type == "tree"){
-			this.draw.polyline((data[0][0].x+selfH/2) + "," + (data[0][0].y+selfH/2) + " " + (data[0][0].x+selfH/2+2*lineH) + "," + (data[0][0].y+selfH/2)).fill('none').stroke(stroke);
-			for (var i = 1; i <data.length-1; i++) {
+			// this.draw.polyline((data[0][0].x+selfH/2) + "," + (data[0][0].y+selfH/2) + " " + (data[0][0].x+selfH/2+2*lineH) + "," + (data[0][0].y+selfH/2)).fill('none').stroke(stroke);
+			for (var i = 0; i <data.length-1; i++) {
 				for(var j = 0; j <data[i].length; j++){
 					this.draw.polyline((data[i][j].x+selfH/2) + "," + (data[i][j].y+selfH/2) + " " + (data[i][j].x+selfH/2+lineH) + "," + (data[i][j].y+selfH/2)).fill('none').stroke(stroke);
-					this.draw.polyline((data[i][j].x-selfH/2) + "," + (data[i][j].y+selfH/2) + " " + (data[i][j].x-selfH/2-lineH) + "," + (data[i][j].y+selfH/2)).fill('none').stroke(stroke);
+					if(i!=0){
+						this.draw.polyline((data[i][j].x-selfH/2) + "," + (data[i][j].y+selfH/2) + " " + (data[i][j].x-selfH/2-lineH) + "," + (data[i][j].y+selfH/2)).fill('none').stroke(stroke);
+					}
+				
 				}
-				this.draw.polyline((data[i][0].x-lineH-selfH/2) + "," + (data[i][0].y+selfH/2) + " " + (data[i][data[i].length-1].x-selfH/2 -lineH) + "," + (data[i][data[i].length-1].y+selfH/2)).fill('none').stroke(stroke);
+				if(i!=0){
+					this.draw.polyline((data[i][0].x-lineH-selfH/2) + "," + (data[i][0].y+selfH/2) + " " + (data[i][data[i].length-1].x-selfH/2 -lineH) + "," + (data[i][data[i].length-1].y+selfH/2)).fill('none').stroke(stroke);
+				}
 				this.draw.polyline((data[i][0].x+lineH+selfH/2) + "," + (data[i][0].y+selfH/2) + " " + (data[i][data[i].length-1].x+selfH/2 +lineH) + "," + (data[i][data[i].length-1].y+selfH/2)).fill('none').stroke(stroke);
 				var midY = Math.abs((data[i][data[i].length-1].y - data[i][0].y)/2) + data[i][0].y + selfH/2;
 				this.draw.polyline((data[i][0].x+ selfH/2+lineH) + "," + midY + " " + (data[i][data[i].length-1].x+selfH/2+2*lineH) + "," + midY).fill('none').stroke(stroke);
