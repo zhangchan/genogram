@@ -16,7 +16,8 @@ Genogram.prototype = {
 		var image = this.draw.image(data.imgurl, imgW, imgW).attr({"x":-imgW/2});
 		var group = this.draw.group().attr({"uid": data.id+"a","transform":'translate('+ data.x +','+ data.y +')',"style":"cursor:pointer;"});
 		// var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"") + "\n" + (data.usemenu ? "涉案人员" : "")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
-		var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
+		// var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
+		var text = this.draw.text(data.text + data.record.replace(/橙色\_|红色\_/g,"")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
 
 		image.click(function(e){
 			addEvent(this,data,e);
