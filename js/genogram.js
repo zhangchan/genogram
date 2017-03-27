@@ -6,32 +6,23 @@
 * BUILT: Tue Jun 21 2016 10:02:37 GMT+0200
 */
 function Genogram(msg){
-	var draw,objSvg,arg,textDesc ,arrowLine = [],arrowText = [];
+	var draw,objSvg,arg,groupLs ,arrowLine = [],arrowText = [];
 	this.init(msg);
 }
 Genogram.prototype = {
 	"createGroup" : function(data,imgW,addEvent,arg){
 		var that = this;
 		var color = data.record && data.record.indexOf("橙色_") != -1 ? (data.record.indexOf("红色_") != -1 ? "red" : "Darkorange") : (data.record.indexOf("红色_") != -1 ? "red" : "");
-		var image = this.draw.image(data.imgurl, imgW, imgW).attr({"x":-imgW/2});
+		var image = this.draw.image(isHasImg(data.imgurl), imgW, imgW).attr({"x":-imgW/2});
+		// var image = this.draw.image(data.imgurl, imgW, imgW).attr({"x":-imgW/2});
 		var group = this.draw.group().attr({"uid": data.id+"a","transform":'translate('+ data.x +','+ data.y +')',"style":"cursor:pointer;"});
-		// var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"") + "\n" + (data.usemenu ? "涉案人员" : "")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
-		// var text = this.draw.text(data.relation + "\n" + data.id + "\n" + data.name + "\n" + data.record.replace(/橙色\_|红色\_/g,"")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
 		var text = this.draw.text(data.text + data.record.replace(/橙色\_|红色\_/g,"")).font({ size: 15 }).attr({"y":imgW,"dy":".35em","text-anchor":"middle","fill":color,"style":"cursor: pointer;"});
 
 		image.click(function(e){
 			addEvent(this,data,e);
-		}).mouseover(function() { 
+			that.clearRL();
 			arg.showRelation && that.relationLine(data,arg,group); 
-		}).mouseout(function() {
-			that.arrowLine.map(function(e){
-				e.remove();
-			});
-			that.arrowText.map(function(e){
-				e.remove();
-			});
-			that.draw.get(0).clear();
-		});
+		})
 		group.add(image).add(text);
 		if(data.usemenu){
 			var tag = this.draw.image(arg.iconUrl, 20, 20).attr({"x":20});
@@ -43,6 +34,7 @@ Genogram.prototype = {
 		});
 	},
 	"setDefaultXY" : function(data,coordX,coordY,type){
+		var me = this;
 		for (var i = data.length - 1; i >= 0; i--) {
 			var xVal = 0;
 			for(var j = 0; j < data[i].length; j++){
@@ -62,7 +54,14 @@ Genogram.prototype = {
 				for(var n = 0;n<data[m].length;n++){
 					if(data[m][n].id == data[m-1][k].cid[0] && data[m][n].x < data[m-1][k].x){
 						old = data[m][n].x;
-						data[m][n].x = data[m-1][k].x;
+						// 新增子类有双亲的判断
+						if(data[m][n].fid && data[m][n].mid && !data[m-1][k].fid){
+							var py = me.getObj(data[m-1][k].pid,data)[0];
+							data[m][n].x = (data[m-1][k].x - py.x)/2 + py.x;
+						}else if(data[m][n].fid || data[m][n].mid){
+							data[m][n].x = data[m-1][k].x;
+						}
+						// data[m][n].x = data[m-1][k].x;
 						for(var i = n+1;i<data[m].length;i++){
 							data[m][i].x = data[m][i].x + data[m][n].x - old;
 						}
@@ -74,19 +73,23 @@ Genogram.prototype = {
 				}
 			}
 			var tick = 0;
-			for (var i = data.length - 1; i >= 0; i--) {
+			for (var i =  1; i<data.length; i++) {
 				for(var j = 0; j < data[i].length; j++){
 					if(data[i][j].bid.length == 1 && data[i][j].fid){
-						var arrp = [];
+						//无兄弟级 且存在父级
+						var arrp = [],si,sj;
 						for(var m = 0;m<data.length; m++){
 							for(var n =0;n<data[m].length; n++){
 								if(data[i][j].fid == data[m][n].id || data[i][j].mid == data[m][n].id){
+									si = m;
+									sj = n;
 									arrp.push(data[m][n].x);
 								}
 							} 
-						}
+						}	
 						var oldOx=data[i][j].x;
-						if(arrp.length == 1){		
+						if(arrp.length == 1){
+							//单个父级
 							if(data[i][j].x < arrp[0]){
 								data[i][j].x = arrp[0];
 								if(data[i][j].cid.length ==1){
@@ -118,7 +121,7 @@ Genogram.prototype = {
 								data[i][j].x = midS;
 							}else{
 								(function(i,j){
-									var temp = data[i][j].x - midS;
+									var temp = data[i][j].x - midS;									
 									for(var m=i-1;m<data[i-1].length;m++){
 										data[i-1][m].x = data[i-1][m].x + temp;
 									}
@@ -145,7 +148,6 @@ Genogram.prototype = {
 						for(var m = 0;m<data.length; m++){
 							for(var n =0;n<data[m].length; n++){
 								if(data[i][j].fid == data[m][n].id){
-
 									tick+=1;
 									if(tick == data[i][j].bid.length){
 										tick=0;
@@ -190,14 +192,16 @@ Genogram.prototype = {
 									}
 
 								}
-								if(data[m][n].cid.length == 1){
-									oneChild(m,n);
-								}
+								// if(data[m][n].cid.length == 1){
+								// 	oneChild(m,n);
+								// }
+
 							}
 						}
 					}
 				}
 			}
+			this.fixParentXY(data);
 		}else if(type == "tree"){
 			data = (function(){
 				var arr = data.map(function(ele){
@@ -220,6 +224,24 @@ Genogram.prototype = {
 			})();
 		}
 		return data;
+	},
+	"fixParentXY" : function(data){
+		var x=200,oldx =data[0][0].x;
+		//祖先级定位
+		var objs = this.getObj(data[0][0].cid,data)
+		if(data[0][0].cid.length==1){
+			x = data[0][0].pid ?  objs[0].x -100 : objs[0].x;
+		}else if(data[0][0].cid.length > 1){
+			var xs = objs.map(function(ele){
+				return ele.x;
+			}).sort();
+			x = (xs[xs.length-1] - xs[0])/2 + xs[0] -100
+		}
+		data[0][0].x = x
+		var temp = x - oldx;
+		for (var i = 1; i < data[0].length; i++) {
+			data[0][i].x += temp;
+		}
 	},
 	"drawLine" : function(data,selfH,lineH,lineStrokeW,type){
 		var stroke = { width: 2,color: 'black'},posX,posY,that =this;
@@ -387,6 +409,18 @@ Genogram.prototype = {
 			}
 		};
 	},
+	"clearRL" : function(){
+		//clear relation line
+		if(this.arrowLine && this.arrowLine.length){
+			this.arrowLine.map(function(e){
+				e.remove();
+			});
+			this.arrowText.map(function(e){
+				e.remove();
+			});
+			this.draw.get(0).clear();
+		}
+	},
 	"craetMenuLayout" : function(obj,data,arg,url){
 		if((arg.showMenuRecords || data.usemenu) &&　!document.getElementById("cmenu")){
 			var cmenu = document.createElement("div"),
@@ -521,21 +555,31 @@ Genogram.prototype = {
 		}
 		result = {
 			maxW : Math.max.apply(null, arrx) + coordX,
-			minH : Math.max.apply(null, arry) + coordX*1.4
+			minH : Math.max.apply(null, arry) + coordX*2
 		}
 		return result;
 	},
-	"addTag" : function(desc,collec,pos){
-		var groupDesc = this.draw.group().attr({"transform":'translate(10,10)'});
-		this.textDesc = this.draw.text(this.sliceStr(desc)).attr({"fill":"#333","style":"cursor: pointer;width:200px"}).font({ size: 15 });
-		var groupCollec = this.draw.group().attr({"transform":'translate('+ (pos.x - 180)+','+ (pos.y - 40)+')'});
-		var textCollec = this.draw.text(collec.name +"\n"+ collec.time).attr({"fill":"#333","style":"cursor: pointer;"}).font({ size: 15 });
-		groupDesc.add(this.textDesc);
-		groupCollec.add(textCollec);
+	"addTag" : function(desc,collec,ms,pos){
+		var me = this;
+	    var titleW = this.calStrWidth(desc,15)>200 ? 200 : this.calStrWidth(desc,15);
+		var num  = Math.floor((pos.x-250)/15);
+		me.groupLs = {
+			groupDesc : me.draw.group().attr({"transform":'translate('+(pos.x-titleW)/2+',10)'}),
+			textDesc : me.draw.text(me.sliceStr(desc,19)).attr({"fill":"#333","style":"cursor: pointer;width:200px"}).font({ size: 15 }),
+			groupCollec : me.draw.group().attr({"transform":'translate('+ (pos.x - 190)+','+ (pos.y - 80)+')'}),
+			textcjr : me.draw.text("采集人："+collec.cjr).attr({"fill":"#333","style":"cursor: pointer;"}).font({ size: 15 }),
+			textCollec : me.draw.text("录入人：" +collec.name +"\n"+ "时间：" +collec.time).attr({"fill":"#333","style":"cursor: pointer;"}).font({ size: 15 }).dy(20),
+			groupMS : me.draw.group().attr({"transform":'translate(10,'+ (pos.y - 130)+')'}),
+			textMS : me.draw.text(me.sliceStr(ms? "说明："+ms : ms ,35)).attr({"fill":"#333","style":"cursor: pointer;"}).font({ size: 15 })
+		}
+		me.groupLs.groupDesc.add(me.groupLs.textDesc);
+		me.groupLs.groupCollec.add(me.groupLs.textcjr);
+		me.groupLs.groupCollec.add(me.groupLs.textCollec);
+		me.groupLs.groupMS.add(me.groupLs.textMS);
 	},
-	"sliceStr" : function (str){  
-     var s=str,reg=/.{19}/g,rs=s.match(reg);  
-     if(str.length<19){  
+	"sliceStr" : function (str,len){  
+     var s=str,reg=eval('/.{'+len+'}/g'),rs=s.match(reg);  
+     if(str.length < len){  
         return str;  
      }else{  
         rs.push(s.substring(rs.join('').length));  
@@ -569,11 +613,40 @@ Genogram.prototype = {
 		}
 		return objArr;
 	},
-	"changeDesc": function(val){
-		this.textDesc.text(val)
+	"changeDesc": function(val,type){
+		switch(type){
+			case "desc" :
+				var rx = this.draw.node.clientWidth;
+				var titleW = this.calStrWidth(val,15)>200 ? 200 : this.calStrWidth(val,15);
+				this.groupLs.groupDesc.attr({"transform":'translate('+(rx-titleW)/2+',10)'});
+				this.groupLs.textDesc.text(this.sliceStr(val,19));
+			break;
+			case "ms" : 
+				this.groupLs.textMS.text(this.sliceStr(val? "说明："+val : "" ,35));
+			break;
+			case "cjr" : 
+				this.groupLs.textcjr.text("采集人："+val);
+			break;
+			default : break;
+		}
+			
+
 	},
 	"checkDataType" : function(value) {
 		return Object.prototype.toString.apply(value).slice(8, -1).toLowerCase();
+	},
+	"calStrWidth" : function(str,w){
+		//calculate string width
+		function calCn(str){
+			re=/[\u4E00-\u9FA5]/g;
+			if(re.test(str)){
+				return str.match(re).length
+			}else{
+				return 0 
+			}
+		}
+		var n = calCn(str),len =str.length;
+  		return Math.ceil((len+n)*w/2);
 	},
 	"init" : function(arg,btn){
 		var defaultVal = {
@@ -586,6 +659,7 @@ Genogram.prototype = {
 			lineStrokeW : 1,
 			imgW : 100,
 			desc : "",
+			ms : "", //描述
 			saveAsPng : false, // 使用保存为图片按钮
 			pngNameRule : "name.png",
 			useVtoH : false,   // 使用横排竖排功能
@@ -598,7 +672,8 @@ Genogram.prototype = {
 			offsetLeft : 0,
 			collec : {
 			    name : "",
-			    time : ""
+			    time : "",
+			    cjr : ""
 			},
 			listener : function(){},
 			menuTo : function(){},
@@ -647,7 +722,7 @@ Genogram.prototype = {
 			lineH = (arg.coordY - arg.selfH)/3
 			this.drawLineH(data,arg.selfH,lineH,arg.lineStrokeW,arg.type);
 		}
-		this.addTag(arg.desc,arg.collec,{x:stage.maxW,y:stage.minH});
+		this.addTag(arg.desc,arg.collec,arg.ms,{x:stage.maxW,y:stage.minH});
 		arg.saveAsPng && this.addDirection(arg.id,data,arg,{x:stage.maxW,y:stage.minH},btn);
 		arg.useVtoH && this.addSave(arg.id,arg.pngNameRule,{x:stage.maxW,y:stage.minH},btn);
 		arg.useViewRelationBtn && this.addRelationBtn(arg.id,{x:stage.maxW,y:stage.minH},btn,arg.relationTo);
@@ -658,11 +733,16 @@ Genogram.prototype = {
 				document.getElementById("cmenu").style.display = "none";
 			}
 		}
-		document.onclick = function(){
+		document.onclick = function(e){
+			var target = e.target;
 			if(document.getElementById("cmenu")){
 				document.getElementById("cmenu").style.display = "none";
+			}
+			if(target.tagName.toLowerCase() == "svg" || target.id =="genogram"){
+				that.clearRL();
 			}
 		}
 	}
 }
+
 
